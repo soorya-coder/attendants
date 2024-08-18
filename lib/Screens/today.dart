@@ -119,9 +119,9 @@ class _TodayState extends State<Today> {
                           mytoday.add(stuab);
                         }*/
 
-                return StreamBuilder(
+                return StreamBuilder<List<Stu>>(
                     stream: StuHelper(cid: cid).getClasstu(),
-                    builder: (context, AsyncSnapshot snaps) {
+                    builder: (context, AsyncSnapshot<List<Stu>> snaps) {
                       if (snaps.hasError) {
                         return Errored(error: 'e3${snaps.error}');
                       }
@@ -189,23 +189,26 @@ class _TodayState extends State<Today> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    padding: EdgeInsets.symmetric(
-                                                        vertical: 5.h,
-                                                        horizontal: 10.w),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5.h,
+                                                            horizontal: 10.w),
                                                     decoration: BoxDecoration(
                                                       color: Colors.grey
                                                           .withOpacity(0.5),
                                                       borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              10.r)),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.r)),
                                                     ),
                                                     child: Text(
                                                       '${depl[depl.indexOf(classes.dep)]} - ${yearl[classes.year - 1]} (${secl[secl.indexOf(classes.sec)]})',
                                                       style: TextStyle(
-                                                        color: Colors.blueAccent,
+                                                        color:
+                                                            Colors.blueAccent,
                                                         fontSize: 16.sp,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
                                                   ),
@@ -217,21 +220,24 @@ class _TodayState extends State<Today> {
                                                       ),
                                                       children: [
                                                         const TextSpan(
-                                                            text: 'Attendents \n',
-                                                            style: TextStyle(
-                                                                fontSize: 30,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        const TextSpan(
-                                                            text:
-                                                                'No. of students = {18}\n',
-                                                            style: TextStyle(
-                                                                color: Colors.brown,
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Attendents \n',
+                                                          style: TextStyle(
+                                                            fontSize: 30,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              'No. of students = ${snaps.data!.length}\n',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.brown,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
@@ -250,11 +256,13 @@ class _TodayState extends State<Today> {
                                             return ListTile(
                                               onTap: () {
                                                 route(
-                                                    context,
-                                                    Attend(
-                                                        classes: classes,
-                                                        date: today,
-                                                        period: per[index]));
+                                                  context,
+                                                  Attend(
+                                                    classes: classes,
+                                                    date: today,
+                                                    period: per[index],
+                                                  ),
+                                                );
                                               },
                                               leading: Container(
                                                 decoration: BoxDecoration(

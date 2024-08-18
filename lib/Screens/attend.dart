@@ -47,7 +47,7 @@ class _AttendState extends State<Attend> {
     stuHelper = StuHelper(cid: classes.id!);
     date = widget.date;
     period = widget.period;
-    todHelper = TodHelper(cid: classes.id!, period: period);
+    todHelper = TodHelper(cid: classes.id!, period: widget.period);
 
     return PopScope(
       canPop: false,
@@ -130,7 +130,7 @@ class _AttendState extends State<Attend> {
                                             children: [
                                               const TextSpan(text: 'Mark your '),
                                               TextSpan(
-                                                  text: ' [$todate] \n',
+                                                  text: ' [$todate] ($period) \n',
                                                   style: const TextStyle(
                                                       color: Colors.brown)),
                                               const TextSpan(

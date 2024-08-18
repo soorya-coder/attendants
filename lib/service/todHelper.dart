@@ -238,7 +238,10 @@ class TodHelper {
 
   Future<void> setlist(List<Stuab> ablist) async {
     CollectionReference att = FirebaseFirestore.instance.collection(colofatt);
-
+    DocumentReference<Map<String, dynamic>> docofdate = att.parent!;
+    docofdate.set({
+      'updated' : true
+    });
     for(Stuab stuab in ablist){
       stuab.period = period;
       stuab.date = date;
