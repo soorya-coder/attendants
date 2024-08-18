@@ -223,10 +223,10 @@ class _TodayState extends State<Today> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text:
                                                                 'No. of students = {18}\n',
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                                 color: Colors.brown,
                                                                 fontSize: 16,
                                                                 fontWeight:
@@ -245,7 +245,7 @@ class _TodayState extends State<Today> {
                                           itemCount: per.length,
                                           shrinkWrap: true,
                                           physics:
-                                              NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           itemBuilder: (con, index) {
                                             return ListTile(
                                               onTap: () {

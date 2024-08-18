@@ -41,9 +41,7 @@ class Stuab {
         isPresent: map[i_isp] ,
         period: period,
         date: date,
-      );
-
-   */
+    );*/
 
   /*List<dynamic> toList(String name,String dep) {
 
@@ -56,9 +54,15 @@ class Stuab {
       date,
     ];
   }
-
    */
 
+  factory Stuab.fromMap(Map<String, dynamic> map) => Stuab(
+   sid : map[col_sid],
+   cid : map[col_cid],
+   isPresent : map[col_ispresent],
+   period : map[col_peroid],
+   date : map[col_date],
+  );
 
   Map<String, dynamic> toMap() {
     return {
@@ -69,8 +73,6 @@ class Stuab {
       col_date: date,
     };
   }
-
-   /**/
 
 }
 

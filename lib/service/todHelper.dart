@@ -3,9 +3,11 @@
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/object/stuab.dart';
 import 'package:attendants/service/stuHelper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gsheets/gsheets.dart';
 
 import '../object/stu.dart';
+import 'classHelper.dart';
 
 const String name_wk = 'Class Attendants';
 //const String col_ = '';
@@ -213,39 +215,37 @@ const String name_wk = 'Class Attendants';
 
 class TodHelper {
 
-  Future adddate() async {
-    List<String> cols = (await (await atsheet).values.allRows())[0];
-    String hour = '$date ${period}th hour';
-    if (cols.contains(hour)) {
-      return;
-    }
-    (await atsheet).values.appendColumn([hour]);
-  }
-
-  Future getdata() async {
-    //wk = await atsheet;
-    //cols = (await wk.values.allRows())[0];
-    //rows = (await wk.values.allRows()).skip(1).toList();
-    //for (int i = 0; i < cols.length; i++) {
-    //  if (cols[i] == '$date ${period}th hour') {
-    //    pridx = i;
-    //  }
-    //}
-  }
-
   String date = today, cid;
   int period;
 
-  TodHelper({required this.cid, required this.period}) {
-    adddate();
-  }
+  TodHelper({required this.cid, required this.period});
+
+  String get colofatt => '${ClassHelper.docofclass(cid)}/attendants/$date/$period';
 
   Stream<List<Stuab>> getlist() {
-
+    final reference = FirebaseFirestore.instance.collection(colofatt);
+    final snapshots = reference.orderBy(col_name).snapshots();
+    return snapshots
+        .map((snapshot) => snapshot.docs.map(
+          (snapshot) {
+        final data = snapshot.data();
+        return Stuab.fromMap(data);
+      },
+    ).toList())
+        .asBroadcastStream();
   }
 
-  Future<void> marklist(List<Stuab> ablist) async {
 
+  Future<void> setlist(List<Stuab> ablist) async {
+    CollectionReference att = FirebaseFirestore.instance.collection(colofatt);
+
+    for(Stuab stuab in ablist){
+      stuab.period = period;
+      stuab.date = date;
+      await att.doc(stuab.sid).set(stuab.toMap());
+    }
+
+    return;
   }
 
 /*Future<void> update(Stu stu) async {

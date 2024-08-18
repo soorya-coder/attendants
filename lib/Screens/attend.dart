@@ -47,7 +47,7 @@ class _AttendState extends State<Attend> {
     stuHelper = StuHelper(cid: classes.id!);
     date = widget.date;
     period = widget.period;
-    //todHelper = TodHelper(cid: classes.id!, period: period);
+    todHelper = TodHelper(cid: classes.id!, period: period);
 
     return PopScope(
       canPop: false,
@@ -55,8 +55,8 @@ class _AttendState extends State<Attend> {
         route(context, const Today());
         msg('Attendants was discarded');
       },
-      child: FutureBuilder<List<Stuab>>(
-        future: todHelper.getlist(),
+      child: StreamBuilder<List<Stuab>>(
+        stream: todHelper.getlist(),
         builder: (context,AsyncSnapshot<List<Stuab>> absnap) {
           if(absnap.hasData){
             return StreamBuilder<List<Stu>>(
@@ -64,7 +64,6 @@ class _AttendState extends State<Attend> {
                 builder: (context, AsyncSnapshot<List<Stu>> snapshot) {
                   if (snapshot.hasData) {
                     unmarkedstu = snapshot.data!;
-
                     hd = [];
 
                     for (int i = 0; i < unmarkedstu.length; i++) {
@@ -716,7 +715,7 @@ class _AttendState extends State<Attend> {
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        await todHelper.marklist(markedab);
+                                        await todHelper.setlist(markedab);
                                         route(context, const Today());
                                         msg('Attendants is saved');
                                       },
@@ -754,7 +753,7 @@ class _AttendState extends State<Attend> {
                                     ),
                                     wspace(10),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           )
