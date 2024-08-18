@@ -1,0 +1,55 @@
+name: attendants
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  google_nav_bar: any
+  fluttertoast: any
+  sqflite: any
+  path: any
+  google_fonts: any
+  cupertino_icons: any
+  intl: any
+  shared_preferences: any
+  font_awesome_flutter: any
+  flutter_slidable: any
+  avatar_glow: any
+  gsheets: any
+  iconly: any
+  pie_chart: any
+  fluttercontactpicker: any
+  url_launcher: any
+  clipboard: any
+  progress_indicators: any
+
+  flutter_screenutil: any
+  loading_animation_widget: any
+
+  #flutter_phone_direct_caller: ^2.1.0
+
+  firebase_auth: any
+  cloud_firestore: any
+  firebase_core: any
+  google_sign_in: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
