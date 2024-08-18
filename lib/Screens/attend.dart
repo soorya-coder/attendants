@@ -47,7 +47,7 @@ class _AttendState extends State<Attend> {
     stuHelper = StuHelper(cid: classes.id!);
     date = widget.date;
     period = widget.period;
-    todHelper = TodHelper(cid: classes.id!, period: period);
+    //todHelper = TodHelper(cid: classes.id!, period: period);
 
     return PopScope(
       canPop: false,

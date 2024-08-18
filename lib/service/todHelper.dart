@@ -11,7 +11,7 @@ const String name_wk = 'Class Attendants';
 //const String col_ = '';
 //const String col_ = '';
 
-class TodHelper {
+/*class TodHelper {
 
   Future adddate() async {
     List<String> cols = (await (await atsheet).values.allRows())[0];
@@ -207,9 +207,71 @@ class TodHelper {
 
 
 }
-
-
-
+}*/
  */
  */
+
+class TodHelper {
+
+  Future adddate() async {
+    List<String> cols = (await (await atsheet).values.allRows())[0];
+    String hour = '$date ${period}th hour';
+    if (cols.contains(hour)) {
+      return;
+    }
+    (await atsheet).values.appendColumn([hour]);
+  }
+
+  Future getdata() async {
+    //wk = await atsheet;
+    //cols = (await wk.values.allRows())[0];
+    //rows = (await wk.values.allRows()).skip(1).toList();
+    //for (int i = 0; i < cols.length; i++) {
+    //  if (cols[i] == '$date ${period}th hour') {
+    //    pridx = i;
+    //  }
+    //}
+  }
+
+  String date = today, cid;
+  int period;
+
+  TodHelper({required this.cid, required this.period}) {
+    adddate();
+  }
+
+  Stream<List<Stuab>> getlist() {
+
+  }
+
+  Future<void> marklist(List<Stuab> ablist) async {
+
+  }
+
+/*Future<void> update(Stu stu) async {
+    DocumentReference<Map<String, dynamic>> docrefer =
+        FirebaseFirestore.instance.doc(docofstu(stu.id!));
+    return await docrefer.update(stu.toMap());
+  }
+
+  Future<void> delete(Stu stu) async {
+    DocumentReference<Map<String, dynamic>> docrefer =
+        FirebaseFirestore.instance.doc(docofstu(stu.id!));
+    return await docrefer.delete();
+  }
+
+  Stream<List<Stu>> getClasstu(String cid) {
+    final reference = FirebaseFirestore.instance.collection(colofstu);
+    final snapshots =
+        reference.where(col_clid, isEqualTo: cid).orderBy(col_name).snapshots();
+    return snapshots
+        .map((snapshot) => snapshot.docs.map(
+              (snapshot) {
+                final data = snapshot.data();
+                return Stu.fromMap(data);
+              },
+            ).toList())
+        .asBroadcastStream();
+  }
+}*/
 }
