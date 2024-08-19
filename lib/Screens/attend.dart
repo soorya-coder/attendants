@@ -82,6 +82,7 @@ class _AttendState extends State<Attend> {
                           break;
                         }
                       }
+
                     }
 
                     return Scaffold(

@@ -214,43 +214,92 @@ const String name_wk = 'Class Attendants';
  */
 
 class TodHelper {
-
   String date = today, cid;
   int period;
 
   TodHelper({required this.cid, required this.period});
 
-  String get colofatt => '${ClassHelper.docofclass(cid)}/attendants/$date/$period';
+  String get colofatt =>
+      '${ClassHelper.docofclass(cid)}/attendants/$date/$period';
 
   Stream<List<Stuab>> getlist() {
     final reference = FirebaseFirestore.instance.collection(colofatt);
     final snapshots = reference.orderBy(col_name).snapshots();
     return snapshots
         .map((snapshot) => snapshot.docs.map(
-          (snapshot) {
-        final data = snapshot.data();
-        return Stuab.fromMap(data);
-      },
-    ).toList())
+              (snapshot) {
+                final data = snapshot.data();
+                return Stuab.fromMap(data);
+              },
+            ).toList())
         .asBroadcastStream();
   }
-
 
   Future<void> setlist(List<Stuab> ablist) async {
     CollectionReference att = FirebaseFirestore.instance.collection(colofatt);
     DocumentReference<Map<String, dynamic>> docofdate = att.parent!;
-    docofdate.set({
-      'updated' : true
-    });
-    for(Stuab stuab in ablist){
+    docofdate.set({'updated': true});
+    for (Stuab stuab in ablist) {
       stuab.period = period;
       stuab.date = date;
       await att.doc(stuab.sid).set(stuab.toMap());
     }
-
     return;
   }
 
+  Future<Worksheet> get atsheet async {
+    GSheets gsheets = GSheets(credential);
+    Spreadsheet spreedsheet = await gsheets.spreadsheet(cid);
+    bool hasSh = false;
+    for (Worksheet sh in spreedsheet.sheets) {
+      if (sh.title == name_wk) hasSh = true;
+    }
+    if (!hasSh) {
+      spreedsheet.addWorksheet(name_wk);
+    }
+    return spreedsheet.worksheetByTitle(name_wk)!;
+  }
+
+  Future<void> uploadab(List<Stuab> ablist, int pd) async {
+
+    Worksheet wk = await atsheet;
+    List<String> cols = (await wk.values.allRows())[0];
+
+    (await FirebaseFirestore.instance.collection('${ClassHelper.docofclass(cid)}/attendants/$date').get()).docs.forEach((doc) async {
+      // 1 2 3 4 5 6 7
+
+      int pridx = -1;
+      for (int i = 0; i < cols.length; i++) {
+        if (cols[i] == '$date ${pd}th hour') {
+          pridx = i;
+        }
+      }
+
+      List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
+      for (Stuab stuab in ablist) {
+        int? sridx;
+        for (int i = 0; i < rows.length; i++) {
+          if (sprfromsid(rows[i][0]) == sprfromsid(stuab.sid)) {
+            sridx = i;
+            break;
+          }
+        }
+
+        if (sridx == null) {
+          Stu stu = await StuHelper(cid: cid).getstu(stuab.sid);
+          await StuHelper(cid: cid)
+              .add(cid, stu.name, stu.regno, stu.sprno, stu.smob, stu.pmob);
+        }
+
+        await wk.values
+            .insertValue(stuab.isPresent, column: pridx + 1, row: sridx! + 2);
+
+      }
+    });
+
+
+
+  }
 /*Future<void> update(Stu stu) async {
     DocumentReference<Map<String, dynamic>> docrefer =
         FirebaseFirestore.instance.doc(docofstu(stu.id!));

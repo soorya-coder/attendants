@@ -58,7 +58,14 @@ class _TodayState extends State<Today> {
               },
               icon: const Icon(IconlyBroken.calendar),
             ),
-            option(),
+
+            IconButton(
+              onPressed: () {
+
+              },
+              icon: const Icon(IconlyBold.tick_square),
+            ),
+
           ],
           bottom: PreferredSize(
             preferredSize: const Size(double.maxFinite, 50),
