@@ -268,7 +268,7 @@ class TodHelper {
     for (Worksheet sh in spreedsheet.sheets) {
       if (sh.title == name_wk) hasSh = true;
     }
-    
+
     if (!hasSh) {
       spreedsheet.addWorksheet(name_wk);
     }
