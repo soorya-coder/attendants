@@ -315,30 +315,4 @@ class TodHelper {
     }
 
   }
-/*Future<void> update(Stu stu) async {
-    DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(stu.id!));
-    return await docrefer.update(stu.toMap());
-  }
-
-  Future<void> delete(Stu stu) async {
-    DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(stu.id!));
-    return await docrefer.delete();
-  }
-
-  Stream<List<Stu>> getClasstu(String cid) {
-    final reference = FirebaseFirestore.instance.collection(colofstu);
-    final snapshots =
-        reference.where(col_clid, isEqualTo: cid).orderBy(col_name).snapshots();
-    return snapshots
-        .map((snapshot) => snapshot.docs.map(
-              (snapshot) {
-                final data = snapshot.data();
-                return Stu.fromMap(data);
-              },
-            ).toList())
-        .asBroadcastStream();
-  }
-}*/
 }
