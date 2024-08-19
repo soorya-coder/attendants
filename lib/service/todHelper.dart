@@ -260,7 +260,7 @@ class TodHelper {
     return spreedsheet.worksheetByTitle(name_wk)!;
   }
 
-  static Future<void> uploadab(String cid, String date) async {
+  static Future<bool> uploadab(String cid, String date) async {
 
     GSheets gsheets = GSheets(credential);
     Spreadsheet spreedsheet = await gsheets.spreadsheet(cid);
@@ -268,6 +268,7 @@ class TodHelper {
     for (Worksheet sh in spreedsheet.sheets) {
       if (sh.title == name_wk) hasSh = true;
     }
+    
     if (!hasSh) {
       spreedsheet.addWorksheet(name_wk);
     }
@@ -314,5 +315,12 @@ class TodHelper {
 
     }
 
+    return true;
   }
+
+
+
+
+
+
 }
