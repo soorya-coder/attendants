@@ -48,52 +48,6 @@ class _TodayState extends State<Today> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Today'),
-          backgroundColor: cr_red,
-          actions: [
-            IconButton(
-              onPressed: () {
-                _selectDate(context);
-              },
-              icon: const Icon(IconlyBroken.calendar),
-            ),
-
-            IconButton(
-              onPressed: () {
-
-              },
-              icon: const Icon(IconlyBold.tick_square),
-            ),
-
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size(double.maxFinite, 50),
-            child: Expanded(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  itemCount: per.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: ActionChip(
-                        label: Text('${per[index]}th period'),
-                        backgroundColor:
-                            per[index] == selper ? Colors.redAccent : null,
-                        onPressed: () {
-                          setState(() {
-                            selper = per[index];
-                          });
-                        },
-                      ),
-                    );
-                  }),
-            ),
-          ),
-        ),
-        drawer: drawer(headcolor: Colors.redAccent),
         body: FutureBuilder(
             future: ClassHelper.getfocus(),
             builder: (context, AsyncSnapshot<String> cidsnap) {
@@ -162,142 +116,190 @@ class _TodayState extends State<Today> {
                               }
                               if (clasnap.hasData) {
                                 Classes classes = clasnap.data!;
-                                return SingleChildScrollView(
-                                  physics: const BouncingScrollPhysics(),
-                                  padding: EdgeInsets.symmetric(vertical: 5.h),
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        margin: EdgeInsets.symmetric(
-                                          vertical: 10.h,
-                                          horizontal: 10.w,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                        ),
-                                        elevation: 5.r,
-                                        shadowColor: cr_red,
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                return Scaffold(
+                                  appBar: AppBar(
+                                    title: const Text('Today'),
+                                    backgroundColor: cr_red,
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          _selectDate(context);
+                                        },
+                                        icon: const Icon(IconlyBroken.calendar),
+                                      ),
+
+                                      IconButton(
+                                        onPressed: () {
+                                          TodHelper.uploadab(cid, today);
+                                        },
+                                        icon: const Icon(IconlyBold.tick_square),
+                                      ),
+
+                                    ],
+                                    bottom: PreferredSize(
+                                      preferredSize: const Size(double.maxFinite, 50),
+                                      child: Expanded(
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                            itemCount: per.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                child: ActionChip(
+                                                  label: Text('${per[index]}th period'),
+                                                  backgroundColor:
+                                                  per[index] == selper ? Colors.redAccent : null,
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      selper = per[index];
+                                                    });
+                                                  },
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  ),
+                                  drawer: drawer(headcolor: Colors.redAccent),
+                                  body: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(vertical: 5.h),
+                                    child: Column(
+                                      children: [
+                                        Card(
+                                          margin: EdgeInsets.symmetric(
                                             vertical: 10.h,
                                             horizontal: 10.w,
                                           ),
-                                          decoration: BoxDecoration(
+                                          shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.r),
-                                            color: Colors.redAccent
-                                                .withOpacity(0.2),
                                           ),
-                                          child: Row(
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 5.h,
-                                                            horizontal: 10.w),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10.r)),
-                                                    ),
-                                                    child: Text(
-                                                      '${depl[depl.indexOf(classes.dep)]} - ${yearl[classes.year - 1]} (${secl[secl.indexOf(classes.sec)]})',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                          elevation: 5.r,
+                                          shadowColor: cr_red,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 10.h,
+                                              horizontal: 10.w,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              color: Colors.redAccent
+                                                  .withOpacity(0.2),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 5.h,
+                                                              horizontal: 10.w),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.r)),
+                                                      ),
+                                                      child: Text(
+                                                        '${depl[depl.indexOf(classes.dep)]} - ${yearl[classes.year - 1]} (${secl[secl.indexOf(classes.sec)]})',
+                                                        style: TextStyle(
+                                                          color:
+                                                              Colors.blueAccent,
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  hspace(10),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      style: GoogleFonts.rubik(
-                                                        color: Colors.grey,
+                                                    hspace(10),
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        style: GoogleFonts.rubik(
+                                                          color: Colors.grey,
+                                                        ),
+                                                        children: [
+                                                          const TextSpan(
+                                                            text: 'Attendents \n',
+                                                            style: TextStyle(
+                                                              fontSize: 30,
+                                                              fontWeight:
+                                                                  FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                'No. of students = ${snaps.data!.length}\n',
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Colors.brown,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      children: [
-                                                        const TextSpan(
-                                                          text: 'Attendents \n',
-                                                          style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          text:
-                                                              'No. of students = ${snaps.data!.length}\n',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.brown,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      ListView.builder(
-                                          itemCount: per.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (con, index) {
-                                            return ListTile(
-                                              onTap: () {
-                                                route(
-                                                  context,
-                                                  Attend(
-                                                    classes: classes,
-                                                    date: today,
-                                                    period: per[index],
-                                                  ),
-                                                );
-                                              },
-                                              leading: Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: cr_red,
-                                                ),
-                                                padding: EdgeInsets.all(10.r),
-                                                child:
-                                                    Text(per[index].toString()),
-                                              ),
-                                              title: Text(today),
-                                              subtitle: Text(
-                                                  '${per[index]}th period'),
-                                              trailing: Container(
-                                                decoration: BoxDecoration(
+                                        ListView.builder(
+                                            itemCount: per.length,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemBuilder: (con, index) {
+                                              return ListTile(
+                                                onTap: () {
+                                                  route(
+                                                    context,
+                                                    Attend(
+                                                      classes: classes,
+                                                      date: today,
+                                                      period: per[index],
+                                                    ),
+                                                  );
+                                                },
+                                                leading: Container(
+                                                  decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                        color: cr_red,
-                                                        width: 1.sp)),
-                                                padding: EdgeInsets.all(2.r),
-                                                child: Icon(
-                                                  IconlyBold.arrow_right_2,
-                                                  color: cr_red,
+                                                    color: cr_red,
+                                                  ),
+                                                  padding: EdgeInsets.all(10.r),
+                                                  child:
+                                                      Text(per[index].toString()),
                                                 ),
-                                              ),
-                                            );
-                                          })
-                                    ],
+                                                title: Text(today),
+                                                subtitle: Text(
+                                                    '${per[index]}th period'),
+                                                trailing: Container(
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: cr_red,
+                                                          width: 1.sp)),
+                                                  padding: EdgeInsets.all(2.r),
+                                                  child: Icon(
+                                                    IconlyBold.arrow_right_2,
+                                                    color: cr_red,
+                                                  ),
+                                                ),
+                                              );
+                                            })
+                                      ],
+                                    ),
                                   ),
                                 );
                               }
