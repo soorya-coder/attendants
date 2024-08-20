@@ -230,16 +230,17 @@ class TodHelper {
     //List<List<String>> data = (await wk.values.column(column))
 
 
-    for (int i = 1; i < 8; i++) {
+    List<String> cols = (await wk.values.row(1));
 
-      List<String> cols = (await wk.values.row(1));
+    for (int i = 1; i < 9; i++) {
 
       String hour = '$date ${i}th hour';
 
       if (!cols.contains(hour)) {
-        wk.values.appendColumn([hour]);
+        await wk.values.appendColumn([hour]);
       }
 
+      cols = (await wk.values.row(1));
       int pridx = -1;
       for (int i = 0; i < cols.length; i++) {
         if (cols[i] == hour) {
@@ -291,6 +292,7 @@ class TodHelper {
         continue;
       }
     }
+
     print('------');
 
     return true;

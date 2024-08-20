@@ -63,6 +63,8 @@ class _AttendState extends State<Attend> {
                 stream: stuHelper.getlist(),
                 builder: (context, AsyncSnapshot<List<Stu>> snapshot) {
                   if (snapshot.hasData) {
+
+                    //List<Stu> unmarkedstu = [], markedstu = [];
                     unmarkedstu = snapshot.data!;
                     hd = [];
 
