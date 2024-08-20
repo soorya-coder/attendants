@@ -1,11 +1,11 @@
 // ignore_for_file: deprecated_member_use, camel_case_types
 
-import 'package:attendants/Screens/students.dart';
 import 'package:attendants/constants/color.dart';
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/constants/wigets.dart';
 import 'package:attendants/main.dart';
 import 'package:attendants/object/classes.dart';
+import 'package:attendants/screen/students.dart';
 import 'package:attendants/service/authHelper.dart';
 import 'package:attendants/service/classHelper.dart';
 import 'package:avatar_glow/avatar_glow.dart';

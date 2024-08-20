@@ -1,5 +1,4 @@
 
-import 'package:attendants/Screens/attend.dart';
 import 'package:attendants/constants/color.dart';
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/constants/wigets.dart';

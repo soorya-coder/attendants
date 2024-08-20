@@ -1,10 +1,10 @@
-import 'package:attendants/Screens/class.dart';
-import 'package:attendants/Screens/home.dart';
-import 'package:attendants/Screens/profile.dart';
-import 'package:attendants/Screens/today.dart';
-import 'package:attendants/Screens/login.dart';
+
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/constants/wigets.dart';
+import 'package:attendants/screen/class.dart';
+import 'package:attendants/screen/home.dart';
+import 'package:attendants/screen/login.dart';
+import 'package:attendants/screen/today.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +15,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
+import 'screen/profile.dart';
 import 'service/authHelper.dart';
 
 Future<void> main() async {
@@ -90,13 +91,13 @@ class _SpalshState extends State<Spalsh> {
 
   void mainscreen() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    inrout = await (pref.getInt('inrout') ?? 0);
-    pname = await (pref.getString('pname') ?? '');
-    pinstut = await (pref.getString('pinstution') ?? '');
-    pemail = await (pref.getString('pemail') ?? '');
+    inrout = (pref.getInt('inrout') ?? 0);
+    pname = (pref.getString('pname') ?? '');
+    pinstut = (pref.getString('pinstution') ?? '');
+    pemail = (pref.getString('pemail') ?? '');
     Future.delayed(const Duration(seconds: 4), () async {
       if (pname == '' || pemail == '' || pinstut == '') {
-        route(context, login[0]);
+        route(context, const Login());
       } else {
         route(context, screens[inrout]);
       }

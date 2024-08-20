@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Screens/class.dart';
-import '../Screens/home.dart';
-import '../Screens/login.dart';
-import '../Screens/profile.dart';
-import '../Screens/today.dart';
+import '../screen/class.dart';
+import '../screen/home.dart';
+import '../screen/profile.dart';
+import '../screen/today.dart';
 import 'color.dart';
 
 const String credential = r'''
@@ -150,7 +149,6 @@ List<Widget> screens = [
 ];
 
 List<String> scroute = ['/home', '/today', '/class', '/profile'];
-List<Widget> login = [const Login()];
 
 List<String> depl = ['CIVIL', 'CSE', 'ECE', 'EEE', 'MECH'];
 

@@ -1,7 +1,7 @@
-import 'package:attendants/Screens/today.dart';
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/main.dart';
 import 'package:attendants/object/classes.dart';
+import 'package:attendants/screen/today.dart';
 import 'package:attendants/service/stuHelper.dart';
 import 'package:attendants/service/todHelper.dart';
 import 'package:flutter/cupertino.dart';

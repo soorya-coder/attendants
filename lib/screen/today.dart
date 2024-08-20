@@ -1,4 +1,3 @@
-import 'package:attendants/Screens/attend.dart';
 import 'package:attendants/constants/color.dart';
 import 'package:attendants/constants/wigets.dart';
 import 'package:attendants/main.dart';
@@ -18,6 +17,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../constants/functions.dart';
 import '../object/stu.dart';
 import '../object/stuab.dart';
+import 'attend.dart';
 
 class _TodayState extends State<Today> {
   List<int> per = [1, 2, 3, 4, 5, 6, 7, 8];
