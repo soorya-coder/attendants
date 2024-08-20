@@ -1,10 +1,10 @@
 
-import 'package:attendants/constants/functions.dart';
-import 'package:attendants/constants/wigets.dart';
-import 'package:attendants/screen/class.dart';
-import 'package:attendants/screen/home.dart';
-import 'package:attendants/screen/login.dart';
-import 'package:attendants/screen/today.dart';
+import '../constants/functions.dart';
+import '../constants/wigets.dart';
+import '../screen/class.dart';
+import '../screen/home.dart';
+import '../screen/login.dart';
+import '../screen/today.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';

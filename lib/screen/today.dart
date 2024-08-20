@@ -24,7 +24,7 @@ class _TodayState extends State<Today> {
   int selper = 1;
 
   String cla = '';
-  bool stl = true, attl = false,loading= false;
+  bool stl = true, attl = false, loading = false;
 
   @override
   void initState() {
@@ -128,7 +128,6 @@ class _TodayState extends State<Today> {
                                         },
                                         icon: const Icon(IconlyBroken.calendar),
                                       ),
-
                                       IconButton(
                                         onPressed: () async {
                                           /*showDialog(context: context, builder: (context){
@@ -142,27 +141,34 @@ class _TodayState extends State<Today> {
                                           });
 
                                            */
-                                          TodHelper.uploadab(cid,today);
+                                          TodHelper.uploadab(cid, today);
                                         },
-                                        icon: const Icon(IconlyBold.tick_square),
+                                        icon:
+                                            const Icon(IconlyBold.tick_square),
                                       ),
-
                                     ],
                                     bottom: PreferredSize(
-                                      preferredSize: const Size(double.maxFinite, 50),
+                                      preferredSize:
+                                          const Size(double.maxFinite, 50),
                                       child: Expanded(
                                         child: ListView.builder(
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
-                                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 10, 0),
                                             itemCount: per.length,
                                             itemBuilder: (context, index) {
                                               return Padding(
-                                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        10, 0, 10, 0),
                                                 child: ActionChip(
-                                                  label: Text('${per[index]}th period'),
+                                                  label: Text(
+                                                      '${per[index]}th period'),
                                                   backgroundColor:
-                                                  per[index] == selper ? Colors.redAccent : null,
+                                                      per[index] == selper
+                                                          ? Colors.redAccent
+                                                          : null,
                                                   onPressed: () {
                                                     setState(() {
                                                       selper = per[index];
@@ -177,7 +183,8 @@ class _TodayState extends State<Today> {
                                   drawer: drawer(headcolor: Colors.redAccent),
                                   body: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(vertical: 5.h),
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 5.h),
                                     child: Column(
                                       children: [
                                         Card(
@@ -235,16 +242,19 @@ class _TodayState extends State<Today> {
                                                     hspace(10),
                                                     RichText(
                                                       text: TextSpan(
-                                                        style: GoogleFonts.rubik(
+                                                        style:
+                                                            GoogleFonts.rubik(
                                                           color: Colors.grey,
                                                         ),
                                                         children: [
                                                           const TextSpan(
-                                                            text: 'Attendents \n',
+                                                            text:
+                                                                'Attendents \n',
                                                             style: TextStyle(
                                                               fontSize: 30,
                                                               fontWeight:
-                                                                  FontWeight.bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                             ),
                                                           ),
                                                           TextSpan(
@@ -252,10 +262,12 @@ class _TodayState extends State<Today> {
                                                                 'No. of students = ${snaps.data!.length}\n',
                                                             style:
                                                                 const TextStyle(
-                                                              color: Colors.brown,
+                                                              color:
+                                                                  Colors.brown,
                                                               fontSize: 16,
                                                               fontWeight:
-                                                                  FontWeight.bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                             ),
                                                           ),
                                                         ],
@@ -290,22 +302,137 @@ class _TodayState extends State<Today> {
                                                     color: cr_red,
                                                   ),
                                                   padding: EdgeInsets.all(10.r),
-                                                  child:
-                                                      Text(per[index].toString()),
+                                                  child: Text(
+                                                      per[index].toString()),
                                                 ),
                                                 title: Text(today),
                                                 subtitle: Text(
                                                     '${per[index]}th period'),
-                                                trailing: Container(
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
+                                                trailing: SizedBox(
+                                                  width: 50.w,
+                                                  child: Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return Dialog(
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.r),
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        300.h,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.r),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          'List of students',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                12.sp,
+                                                                          ),
+                                                                        ),
+                                                                        StreamBuilder<List<Stu>>(
+                                                                            stream: StuHelper(cid: cid).getClasstu(),
+                                                                            builder: (context, snapstu) {
+                                                                              return StreamBuilder<List<Stuab>>(
+                                                                                  stream: TodHelper(cid: cid, period: per[index]).getlist(),
+                                                                                  builder: (context, snapab) {
+                                                                                    if (snapab.hasData && snapstu.hasData) {
+                                                                                      return ListView.builder(
+                                                                                        shrinkWrap: true,
+                                                                                        itemCount: snapstu.data!.length,
+                                                                                        itemBuilder: (context, inx) {
+                                                                                          Stu stu = snapstu.data![index];
+                                                                                          Stuab? stuab;
+                                                                                          for (Stuab ab in snapab.data!) {
+                                                                                            if(ab.sid == stu.id){
+                                                                                              stuab = ab;
+                                                                                            }
+                                                                                          }
+                                                                                          return ListTile(
+                                                                                            title: Text(stu.name),
+                                                                                            subtitle: Text(stu.name),
+                                                                                            trailing: stuab==null ? Icon(
+                                                                                              CupertinoIcons.clear_thick_circled,
+                                                                                              color: Colors.redAccent.withOpacity(0.7),
+                                                                                              size: 25.r,
+                                                                                            ) : stuab.isPresent == 'P' ? Icon(
+                                                                                              CupertinoIcons.checkmark_alt_circle_fill,
+                                                                                              color: Colors.redAccent.withOpacity(0.7),
+                                                                                              size: 25.r,
+                                                                                            ) : Icon(
+                                                                                              CupertinoIcons.clear_thick_circled,
+                                                                                              color: Colors.redAccent.withOpacity(0.7),
+                                                                                              size: 25.r,
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    }
+                                                                                    return Loading();
+                                                                                  });
+                                                                            }),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              });
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                              color: cr_red,
+                                                              width: 1.sp,
+                                                            ),
+                                                          ),
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  2.r),
+                                                          child: Icon(
+                                                            IconlyBold.paper,
+                                                            color: cr_red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                                color: cr_red,
+                                                                width: 1.sp)),
+                                                        padding:
+                                                            EdgeInsets.all(2.r),
+                                                        child: Icon(
+                                                          IconlyBold
+                                                              .arrow_right_2,
                                                           color: cr_red,
-                                                          width: 1.sp)),
-                                                  padding: EdgeInsets.all(2.r),
-                                                  child: Icon(
-                                                    IconlyBold.arrow_right_2,
-                                                    color: cr_red,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               );
