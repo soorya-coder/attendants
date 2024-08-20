@@ -261,7 +261,6 @@ class TodHelper {
   }
 
   static Future<bool> uploadab(String cid, String date) async {
-
     GSheets gsheets = GSheets(credential);
     Spreadsheet spreedsheet = await gsheets.spreadsheet(cid);
     bool hasSh = false;
@@ -274,10 +273,15 @@ class TodHelper {
     }
 
     Worksheet wk = spreedsheet.worksheetByTitle(name_wk)!;
-    List<String> cols = (await wk.values.allRows())[0];
+    //List<List<String>> data = (await wk.values.column(column))
 
-    for(int i=1;i<8;i++){
+    List<String> cols = (await wk.values.row(1));
+    print(cols);
 
+    List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
+    print(rows);
+
+    for (int i = 1; i < 8; i++) {
       int pridx = -1;
       for (int i = 0; i < cols.length; i++) {
         if (cols[i] == '$date ${i}th hour') {
@@ -285,12 +289,17 @@ class TodHelper {
         }
       }
 
-      List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
+      try {
+        List<Stuab> ablist = (await FirebaseFirestore.instance
+                .collection(
+                    '${ClassHelper.docofclass(cid)}/attendants/$date/$i')
+                .get())
+            .docs
+            .map((doc) => Stuab.fromMap(doc.data()))
+            .toList();
 
-      try{
-
-        List<Stuab> ablist = (await FirebaseFirestore.instance.collection('${ClassHelper.docofclass(cid)}/attendants/$date/$i').get()).docs.map((doc)=> Stuab.fromMap(doc.data())).toList();
         for (Stuab stuab in ablist) {
+          print(1);
           int? sridx;
           for (int i = 0; i < rows.length; i++) {
             if (sprfromsid(rows[i][0]) == sprfromsid(stuab.sid)) {
@@ -305,22 +314,17 @@ class TodHelper {
                 .add(cid, stu.name, stu.regno, stu.sprno, stu.smob, stu.pmob);
           }
 
-          await wk.values.insertValue(stuab.isPresent, column: pridx + 1, row: sridx! + 2);
+          print('12 $pridx');
+          await wk.values
+              .insertValue(stuab.isPresent, column: pridx + 1, row: sridx! + 2);
         }
 
-      } catch(e){
+      } catch (e) {
         print(e.toString());
         continue;
       }
-
     }
 
     return true;
   }
-
-
-
-
-
-
 }
