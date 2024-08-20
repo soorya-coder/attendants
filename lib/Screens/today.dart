@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../constants/functions.dart';
 import '../object/stu.dart';
 import '../object/stuab.dart';
@@ -23,7 +24,7 @@ class _TodayState extends State<Today> {
   int selper = 1;
 
   String cla = '';
-  bool stl = true, attl = false;
+  bool stl = true, attl = false,loading= false;
 
   @override
   void initState() {
@@ -129,8 +130,19 @@ class _TodayState extends State<Today> {
                                       ),
 
                                       IconButton(
-                                        onPressed: () {
-                                          TodHelper.uploadab(cid, today);
+                                        onPressed: () async {
+                                          /*showDialog(context: context, builder: (context){
+
+                                            return SizedBox(
+                                              width: 100.r,
+                                              height: 100.r,
+                                              child: LoadingAnimationWidget.beat(color: cr_purple, size: 20.sp),
+                                            );
+
+                                          });
+
+                                           */
+                                          TodHelper.uploadab(cid,today);
                                         },
                                         icon: const Icon(IconlyBold.tick_square),
                                       ),
