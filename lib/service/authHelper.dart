@@ -99,7 +99,7 @@ class AuthHelper{
 
       final wk = spreadsheet.worksheetByTitle(name_wk);
       wk!.values.allRows().then((value) {
-        print(value.toString());
+        //print(value.toString());
       });
       //print(wk!.values.value(column: 0, row: 0));
       //msg(wk!.values.toString());
