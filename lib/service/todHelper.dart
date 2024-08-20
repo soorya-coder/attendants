@@ -226,20 +226,24 @@ class TodHelper {
     }
 
     Worksheet wk = spreedsheet.worksheetByTitle(name_wk)!;
+
     //List<List<String>> data = (await wk.values.column(column))
 
 
     for (int i = 1; i < 8; i++) {
 
       List<String> cols = (await wk.values.row(1));
-      List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
 
       String hour = '$date ${i}th hour';
-      wk.values.appendColumn([hour]);
+
+      if (!cols.contains(hour)) {
+        wk.values.appendColumn([hour]);
+      }
 
       int pridx = -1;
       for (int i = 0; i < cols.length; i++) {
         if (cols[i] == hour) {
+          //print(cols[i]);
           pridx = i;
         }
       }
@@ -248,6 +252,11 @@ class TodHelper {
         print('period index not found');
         continue;
       }
+
+      print(pridx);
+
+      cols = (await wk.values.row(1));
+      List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
 
       try {
         List<Stuab> ablist = (await FirebaseFirestore.instance
@@ -259,7 +268,6 @@ class TodHelper {
             .toList();
 
         for (Stuab stuab in ablist) {
-          print(1);
           int? sridx;
           for (int i = 0; i < rows.length; i++) {
             if (sprfromsid(rows[i][0]) == sprfromsid(stuab.sid)) {
@@ -274,7 +282,6 @@ class TodHelper {
                 .add(cid, stu.name, stu.regno, stu.sprno, stu.smob, stu.pmob);
           }
 
-          print('12 $pridx');
           await wk.values
               .insertValue(stuab.isPresent, column: pridx + 1, row: sridx! + 2);
         }
