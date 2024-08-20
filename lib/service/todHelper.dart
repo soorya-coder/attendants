@@ -163,55 +163,8 @@ const String name_wk = 'Class Attendants';
     wk.values.insertValue('A', column: pridx + 1, row: sridx + 1);
   }
 
-/*Future<void> update(Stu stu) async {
-    DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(stu.id!));
-    return await docrefer.update(stu.toMap());
-  }
-
-  /*Future<void> update(Stu stu) async {
-    DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(stu.id!));
-    return await docrefer.update(stu.toMap());
-  }
-
-  Future<void> delete(Stu stu) async {
-    DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(stu.id!));
-    return await docrefer.delete();
-  }
-
-  Stream<List<Stu>> getClasstu(String cid) {
-    final reference = FirebaseFirestore.instance.collection(colofstu);
-    final snapshots =
-        reference.where(col_clid, isEqualTo: cid).orderBy(col_name).snapshots();
-    return snapshots
-        .map((snapshot) => snapshot.docs.map(
-              (snapshot) {
-                final data = snapshot.data();
-                return Stu.fromMap(data);
-              },
-            ).toList())
-        .asBroadcastStream();
-  }
-
-  /*Future<void> setfocus(Classes cfocus) async {
-    var ref = FirebaseFirestore.instance.collection('');
-    await ref.get().then((value) {
-      value.docs.forEach((e) {
-        Classes cdata = Classes.fromMap(e.data());
-        if(cfocus.id == cdata.id){
-          cdata.
-        }
-      });
-    });
-  }*/
-
-
 }
-}*/
- */
- */
+*/
 
 class TodHelper {
   String date = today, cid;
@@ -275,18 +228,25 @@ class TodHelper {
     Worksheet wk = spreedsheet.worksheetByTitle(name_wk)!;
     //List<List<String>> data = (await wk.values.column(column))
 
-    List<String> cols = (await wk.values.row(1));
-    print(cols);
-
-    List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
-    print(rows);
 
     for (int i = 1; i < 8; i++) {
+
+      List<String> cols = (await wk.values.row(1));
+      List<List<String>> rows = (await wk.values.allRows()).skip(1).toList();
+
+      String hour = '$date ${i}th hour';
+      wk.values.appendColumn([hour]);
+
       int pridx = -1;
       for (int i = 0; i < cols.length; i++) {
-        if (cols[i] == '$date ${i}th hour') {
+        if (cols[i] == hour) {
           pridx = i;
         }
+      }
+
+      if(pridx==-1){
+        print('period index not found');
+        continue;
       }
 
       try {
