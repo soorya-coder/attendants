@@ -177,7 +177,7 @@ class TodHelper {
 
   Stream<List<Stuab>> getlist() {
     final reference = FirebaseFirestore.instance.collection(colofatt);
-    final snapshots = reference.orderBy(col_name).snapshots();
+    final snapshots = reference.snapshots();
     return snapshots
         .map((snapshot) => snapshot.docs.map(
               (snapshot) {

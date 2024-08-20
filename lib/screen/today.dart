@@ -336,62 +336,64 @@ class _TodayState extends State<Today> {
                                                                               10.r),
                                                                     ),
                                                                     child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Text(
-                                                                          'List of students',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                12.sp,
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            'List of students',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 12.sp,
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                        StreamBuilder<List<Stu>>(
-                                                                            stream: StuHelper(cid: cid).getClasstu(),
-                                                                            builder: (context, snapstu) {
-                                                                              return StreamBuilder<List<Stuab>>(
-                                                                                  stream: TodHelper(cid: cid, period: per[index]).getlist(),
-                                                                                  builder: (context, snapab) {
-                                                                                    if (snapab.hasData && snapstu.hasData) {
-                                                                                      return ListView.builder(
-                                                                                        shrinkWrap: true,
-                                                                                        itemCount: snapstu.data!.length,
-                                                                                        itemBuilder: (context, inx) {
-                                                                                          Stu stu = snapstu.data![index];
-                                                                                          Stuab? stuab;
-                                                                                          for (Stuab ab in snapab.data!) {
-                                                                                            if(ab.sid == stu.id){
-                                                                                              stuab = ab;
+                                                                          StreamBuilder<List<Stu>>(
+                                                                              stream: StuHelper(cid: cid).getClasstu(),
+                                                                              builder: (context, snapstu) {
+                                                                                return StreamBuilder<List<Stuab>>(
+                                                                                    stream: TodHelper(cid: cid, period: per[index]).getlist(),
+                                                                                    builder: (context, snapab) {
+                                                                                      if (snapab.hasData && snapstu.hasData) {
+                                                                                        print(per[index]);
+                                                                                        print(snapab.data);
+                                                                                        return ListView.builder(
+                                                                                          shrinkWrap: true,
+                                                                                          itemCount: snapstu.data!.length,
+                                                                                          itemBuilder: (context, inx) {
+                                                                                            Stu stu = snapstu.data![inx];
+                                                                                            Stuab? stuab;
+                                                                                            for (Stuab ab in snapab.data!) {
+                                                                                              if (ab.sid == stu.id) {
+                                                                                                stuab = ab;
+                                                                                              }
                                                                                             }
-                                                                                          }
-                                                                                          return ListTile(
-                                                                                            title: Text(stu.name),
-                                                                                            subtitle: Text(stu.name),
-                                                                                            trailing: stuab==null ? Icon(
-                                                                                              CupertinoIcons.clear_thick_circled,
-                                                                                              color: Colors.redAccent.withOpacity(0.7),
-                                                                                              size: 25.r,
-                                                                                            ) : stuab.isPresent == 'P' ? Icon(
-                                                                                              CupertinoIcons.checkmark_alt_circle_fill,
-                                                                                              color: Colors.redAccent.withOpacity(0.7),
-                                                                                              size: 25.r,
-                                                                                            ) : Icon(
-                                                                                              CupertinoIcons.clear_thick_circled,
-                                                                                              color: Colors.redAccent.withOpacity(0.7),
-                                                                                              size: 25.r,
-                                                                                            ),
-                                                                                          );
-                                                                                        },
-                                                                                      );
-                                                                                    }
-                                                                                    return Loading();
-                                                                                  });
-                                                                            }),
-                                                                      ],
+                                                                                            return ListTile(
+                                                                                              title: Text(stu.name),
+                                                                                              subtitle: Text(stu.regno),
+                                                                                              trailing: stuab == null
+                                                                                                  ? const SizedBox()
+                                                                                                  : stuab.isPresent == 'P'
+                                                                                                      ? Icon(
+                                                                                                          CupertinoIcons.checkmark_alt_circle_fill,
+                                                                                                          color: Colors.redAccent.withOpacity(0.7),
+                                                                                                          size: 25.r,
+                                                                                                        )
+                                                                                                      : Icon(
+                                                                                                          CupertinoIcons.clear_thick_circled,
+                                                                                                          color: Colors.redAccent.withOpacity(0.7),
+                                                                                                          size: 25.r,
+                                                                                                        ),
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                      }
+                                                                                      return LoadingAnimationWidget.beat(color: cr_amber, size: 10.sp);
+                                                                                    });
+                                                                              }),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 );
