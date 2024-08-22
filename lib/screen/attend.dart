@@ -392,7 +392,7 @@ class _AttendbodyState extends State<Attendbody> {
                   );
                 }),
 
-            
+
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
