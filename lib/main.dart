@@ -83,6 +83,7 @@ class GetUser extends StatelessWidget {
 }
 
 class _SpalshState extends State<Spalsh> {
+
   @override
   void initState() {
     super.initState();
