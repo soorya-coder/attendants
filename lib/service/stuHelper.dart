@@ -9,7 +9,6 @@ import 'package:gsheets/gsheets.dart';
 //const String col_ = '';
 
 class StuHelper {
-
   StuHelper({required this.cid});
 
   String cid;
@@ -17,20 +16,30 @@ class StuHelper {
   String get colofstu => '${ClassHelper.docofclass(cid)}/students';
   String docofstu(String doc) => '$colofstu/$doc';
 
-  Future<void> add(String clid,String name,String regno,String sprno,String smob,String pmob) async {
-    Stu stu = Stu(clid: clid, name: name, regno: regno, sprno: sprno, smob: smob, pmob: pmob);
+  Future<void> add(String clid, String name, String regno, String sprno,
+      String smob, String pmob) async {
+    Stu stu = Stu(
+        clid: clid,
+        name: name,
+        regno: regno,
+        sprno: sprno,
+        smob: smob,
+        pmob: pmob);
 
-    String id = stu.id =  '$sprno - $regno';
+    stu.id = '$sprno - $regno';
     stu.time = timenow;
+
     DocumentReference<Map<String, dynamic>> docrefer =
-        FirebaseFirestore.instance.doc(docofstu(id));
+        FirebaseFirestore.instance.doc(docofstu(stu.id!));
     Worksheet wk = await ClassHelper.atsheet(cid);
     wk.values.appendRow(stu.toList());
     return await docrefer.set(stu.toMap());
   }
 
   Future<Stu> getstu(String sid) async {
-    Stu stu = Stu.fromMap((await FirebaseFirestore.instance.collection(colofstu).doc(sid).get()).data()!);
+    Stu stu = Stu.fromMap(
+        (await FirebaseFirestore.instance.collection(colofstu).doc(sid).get())
+            .data()!);
     return stu;
   }
 
@@ -72,7 +81,6 @@ class StuHelper {
         .asBroadcastStream();
   }
 
-
 /*Future<void> setfocus(Classes cfocus) async {
     var ref = FirebaseFirestore.instance.collection('');
     await ref.get().then((value) {
@@ -84,5 +92,4 @@ class StuHelper {
       });
     });
   }*/
-
 }

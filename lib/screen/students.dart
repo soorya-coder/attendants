@@ -1,4 +1,3 @@
-
 import 'package:attendants/constants/color.dart';
 import 'package:attendants/constants/functions.dart';
 import 'package:attendants/constants/wigets.dart';
@@ -26,7 +25,6 @@ const String sheetid = '1w_ZasV4rBWANzWYl0SaJkVF9R52r6RGn6J2tvbVVN5k';
 Worksheet? detailsheet;
 
 class _StudentState extends State<Student> {
-
   late Classes classs;
 
   Future<List<Stu>> getstulist(String sheettitle) async {
@@ -86,67 +84,79 @@ class _StudentState extends State<Student> {
         body: SafeArea(
           child: Column(
             children: [
-              Container(
-                //color: depcl[1].withOpacity(0.5),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/class');
-                          },
-                          icon: const Icon(IconlyBold.arrow_left_2),
-                        ),
-                        Text('${classs.dep} - ${yearl[classs.year]} (${classs.sec})',style: TextStyle(
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          routename(context, '/class');
+                        },
+                        icon: const Icon(IconlyBold.arrow_left_2),
+                      ),
+                      Text(
+                        '${classs.dep} - ${yearl[classs.year]} (${classs.sec})',
+                        style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
-                        ),),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  ClassHelper.setfocus(classs);
-                                });
-                              },
-                              icon: FutureBuilder(
-                                  future: ClassHelper.getfocus(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Icon(
-                                        Icons.center_focus_strong,
-                                        color: snapshot.data == classs.id
-                                            ? Colors.red
-                                            : Colors.black54,
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  }),
-                            ),
-                            option(),
-                          ],
-                        )
-                      ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                ClassHelper.setfocus(classs);
+                              });
+                            },
+                            icon: FutureBuilder(
+                                future: ClassHelper.getfocus(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Icon(
+                                      Icons.center_focus_strong,
+                                      color: snapshot.data == classs.id
+                                          ? Colors.red
+                                          : Colors.black54,
+                                    );
+                                  }
+                                  return const SizedBox();
+                                }),
+                          ),
+                          option(),
+                        ],
+                      )
+                    ],
+                  ),
+                  ListTile(
+                    onTap: () {
+                      launchUrl(Uri.parse(
+                          'https://docs.google.com/spreadsheets/d/${classs.id}/edit#gid=1676750713'));
+                      msg('Opening Sheet for viewing');
+                    },
+                    title: Text(
+                      'SpreadSheet Id',
+                      style: TextStyle(fontSize: 10.sp),
                     ),
-                    ListTile(
-                      onTap: (){
-                        launchUrl(Uri.parse('https://docs.google.com/spreadsheets/d/${classs.id}/edit#gid=1676750713'));
-                        msg('Opening Sheet for viewing');
+                    subtitle: SelectableText(
+                      classs.id!,
+                      style: TextStyle(
+                          fontSize: 7.sp, color: Colors.amber.shade700),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        FlutterClipboard.copy(
+                            'https://docs.google.com/spreadsheets/d/${classs.id}/');
+                        msg('Link Copied');
                       },
-                      title: Text('SpreadSheet Id',style: TextStyle(fontSize: 10.sp),),
-                      subtitle: SelectableText(classs.id!,style: TextStyle(fontSize: 7.sp,color: Colors.amber.shade700),),
-                      trailing: IconButton(
-                        onPressed: (){
-                          FlutterClipboard.copy('https://docs.google.com/spreadsheets/d/${classs.id}/');
-                          msg('Link Copied');
-                        },
-                        icon: const Icon(Icons.copy,color: Colors.amber,),
+                      icon: const Icon(
+                        Icons.copy,
+                        color: Colors.amber,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Stack(
@@ -155,7 +165,8 @@ class _StudentState extends State<Student> {
                     StreamBuilder<List<Stu>>(
                         stream: stuHelper.getClasstu(),
                         builder: (context, AsyncSnapshot<List<Stu>> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.active) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.active) {
                             List<Stu> stulist = [];
                             snapshot.data!.forEach((element) {
                               if (element.clid == classs.id) {
@@ -167,12 +178,15 @@ class _StudentState extends State<Student> {
                               children: [
                                 stulist.isNotEmpty
                                     ? ListView.builder(
-                                        padding: const EdgeInsets.only(top: 20,bottom: 100),
+                                        padding: const EdgeInsets.only(
+                                            top: 20, bottom: 100),
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: stulist.length,
                                         itemBuilder: (context, index) {
-                                          Stu student = stulist.elementAt(index);
+                                          Stu student =
+                                              stulist.elementAt(index);
                                           return Card(
                                               elevation: 5,
                                               shadowColor: Colors.grey,
@@ -180,10 +194,12 @@ class _StudentState extends State<Student> {
                                                   20, 10, 20, 5),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(20)),
+                                                      BorderRadius.circular(
+                                                          20)),
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
                                                 child: Row(
                                                   children: [
                                                     wspace(10),
@@ -191,38 +207,47 @@ class _StudentState extends State<Student> {
                                                       flex: 7,
                                                       child: Column(
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
-                                                            student.name.toUpperCase(),
+                                                            student.name
+                                                                .toUpperCase(),
                                                             style: const TextStyle(
                                                                 fontWeight:
-                                                                    FontWeight.w900),
+                                                                    FontWeight
+                                                                        .w900),
                                                           ),
                                                           Text.rich(
                                                             TextSpan(
-                                                              style: GoogleFonts.rubik(
-                                                                  color: Colors.black),
+                                                              style: GoogleFonts
+                                                                  .rubik(
+                                                                      color: Colors
+                                                                          .black),
                                                               children: [
                                                                 const TextSpan(
-                                                                    text: ' | Spr no: '),
+                                                                    text:
+                                                                        ' | Spr no: '),
                                                                 TextSpan(
-                                                                    text: student.sprno,
+                                                                    text: student
+                                                                        .sprno,
                                                                     style: const TextStyle(
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .bold)),
+                                                                            FontWeight.bold)),
                                                                 const TextSpan(
-                                                                    text: '\n | ',
-                                                                    style: TextStyle()),
+                                                                    text:
+                                                                        '\n | ',
+                                                                    style:
+                                                                        TextStyle()),
                                                                 const TextSpan(
-                                                                    text: 'Reg no: '),
+                                                                    text:
+                                                                        'Reg no: '),
                                                                 TextSpan(
-                                                                    text: student.regno,
+                                                                    text: student
+                                                                        .regno,
                                                                     style: const TextStyle(
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .bold)),
+                                                                            FontWeight.bold)),
                                                               ],
                                                             ),
                                                           ),
@@ -239,31 +264,35 @@ class _StudentState extends State<Student> {
                                                               icon: Icon(
                                                                 IconlyBold.call,
                                                                 color: cr_green
-                                                                    .withOpacity(.5),
+                                                                    .withOpacity(
+                                                                        .5),
                                                               ),
                                                               onPressed: () {
                                                                 showDialog(
-                                                                    context: context,
-                                                                    builder: (context) =>
-                                                                        call(
-                                                                            student
-                                                                                .smob,
-                                                                            student
-                                                                                .pmob));
+                                                                    context:
+                                                                        context,
+                                                                    builder: (context) => call(
+                                                                        student
+                                                                            .smob,
+                                                                        student
+                                                                            .pmob));
                                                               },
                                                             ),
                                                           ),
                                                           Expanded(
                                                             child: IconButton(
                                                               icon: Icon(
-                                                                IconlyBold.delete,
+                                                                IconlyBold
+                                                                    .delete,
                                                                 color: cr_red,
                                                               ),
                                                               onPressed: () {
                                                                 setState(() {
-                                                                  stuHelper.delete(student);
+                                                                  stuHelper.delete(
+                                                                      student);
                                                                   stulist
-                                                                      .removeAt(index);
+                                                                      .removeAt(
+                                                                          index);
                                                                   msg('${student.name} deleted');
                                                                 });
                                                               },
@@ -279,16 +308,21 @@ class _StudentState extends State<Student> {
                                     : SizedBox(
                                         height: size.height - 100,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             const Text.rich(TextSpan(
-                                                style: TextStyle(color: Colors.grey),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
                                                 children: [
-                                                  const TextSpan(text: 'YOU has no'),
+                                                  const TextSpan(
+                                                      text: 'YOU has no'),
                                                   const TextSpan(
                                                       text: ' student',
-                                                      style: TextStyle(fontSize: 20)),
+                                                      style: TextStyle(
+                                                          fontSize: 20)),
                                                 ])),
                                             hspace(50),
                                             const Center(
@@ -317,10 +351,9 @@ class _StudentState extends State<Student> {
                         height: 70,
                         child: InkWell(
                           onTap: () {
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => gshudia(getshulist: getstulist())));
                             showDialog(
-                                context: context, builder: (context) => singlestu());/**/
-                            //route(context, StuSheet(classes: classs));
+                                context: context,
+                                builder: (context) => singlestu());
                           },
                           child: Card(
                             color: Colors.amber.shade400.withOpacity(1),
@@ -382,7 +415,7 @@ class _StudentState extends State<Student> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       //insetPadding: const EdgeInsets.symmetric(vertical: 20),
       child: Container(
-        height: size.height * 0.25,
+        height: 250,
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Column(
           children: [
@@ -397,7 +430,6 @@ class _StudentState extends State<Student> {
             const Spacer(),
             ListTile(
               onTap: () async {
-                //FlutterPhoneDirectCaller.callNumber('9342573534');
                 launch("tel://$stuno");
               },
               title: const Text(
@@ -413,7 +445,6 @@ class _StudentState extends State<Student> {
             const Spacer(),
             ListTile(
               onTap: () async {
-                //FlutterPhoneDirectCaller.callNumber('9342573534');
                 launch("tel://$prno");
               },
               title: const Text(
@@ -730,7 +761,7 @@ class _StudentState extends State<Student> {
                 List<Worksheet> sheets = snapshot.data ?? [];
                 return ListView.builder(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: sheets.length,
@@ -750,9 +781,9 @@ class _StudentState extends State<Student> {
                             showDialog(
                                 context: context,
                                 builder: (context) => gshudia(
-                                  getshulist: getstulist(sheet.title),
-                                  classs: classs,
-                                ));
+                                      getshulist: getstulist(sheet.title),
+                                      classs: classs,
+                                    ));
                           },
                           child: Row(
                             children: [
@@ -760,7 +791,8 @@ class _StudentState extends State<Student> {
                               Text(
                                 sheet.title,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w900, fontSize: 16.sp),
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 16.sp),
                               ),
                               wspace(10.w),
                             ],
@@ -816,9 +848,9 @@ class _gshudiaState extends State<gshudia> {
       child: Dialog(
         elevation: 100,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10.r),
         ),
-        insetPadding: const EdgeInsets.fromLTRB(20, 40, 20, 40),
+        insetPadding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
         child: StreamBuilder<List<Stu>>(
             stream: stuHelper.getClasstu(),
             builder: (context, snapshot) {
@@ -949,7 +981,7 @@ class _gshudiaState extends State<gshudia> {
                                         children: [
                                           wspace(15),
                                           Expanded(
-                                            flex: 10,
+                                            flex: 2,
                                             child: Text(
                                               mystu.name,
                                               style: const TextStyle(
@@ -958,7 +990,7 @@ class _gshudiaState extends State<gshudia> {
                                           ),
                                           wspace(10),
                                           Expanded(
-                                            flex: 10,
+                                            flex: 2,
                                             child: Text(
                                               mystu.regno,
                                               style: const TextStyle(
@@ -968,7 +1000,7 @@ class _gshudiaState extends State<gshudia> {
                                           ),
                                           wspace(10),
                                           Expanded(
-                                            flex: 5,
+                                            flex: 1,
                                             child: Text(
                                               mystu.sprno,
                                               style: const TextStyle(
@@ -977,55 +1009,30 @@ class _gshudiaState extends State<gshudia> {
                                             ),
                                           ),
                                           Expanded(
-                                            flex: 5,
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: IconButton(
-                                                    hoverColor:
-                                                        Colors.lightGreen,
-                                                    splashColor:
-                                                        Colors.lightGreen,
-                                                    highlightColor:
-                                                        Colors.lightGreen,
-                                                    focusColor:
-                                                        Colors.lightGreen,
-                                                    icon: const Icon(
-                                                      Icons.check,
-                                                      color: Colors.lightGreen,
-                                                    ),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        stuHelper.add(
-                                                            mystu.clid,
-                                                            mystu.name,
-                                                            mystu.regno,
-                                                            mystu.sprno,
-                                                            mystu.smob,
-                                                            mystu.pmob);
-                                                        stulist.add(mystu);
-                                                        msg('${mystu.name} Added');
-                                                        sheetstu
-                                                            .removeAt(index);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                /*Expanded(
-                                                flex: 3,
-                                                child: IconButton(
-                                                  hoverColor: Colors.redAccent,
-                                                  icon: const Icon(Icons.clear,color: Colors.redAccent,),
-                                                  onPressed: (){
-                                                    setState(() {
-                                                      sheetstu.removeAt(index);
-                                                      msg('${mystu.stuname} Removed');
-                                                    });
-                                                  },
-                                                ),
-                                              ),*/
-                                              ],
+                                            flex: 1,
+                                            child: IconButton(
+                                              hoverColor: Colors.lightGreen,
+                                              splashColor: Colors.lightGreen,
+                                              highlightColor: Colors.lightGreen,
+                                              focusColor: Colors.lightGreen,
+                                              icon: const Icon(
+                                                Icons.check,
+                                                color: Colors.lightGreen,
+                                              ),
+                                              onPressed: () async{
+                                                stuHelper.add(
+                                                  mystu.clid,
+                                                  mystu.name,
+                                                  mystu.regno,
+                                                  mystu.sprno,
+                                                  mystu.smob,
+                                                  mystu.pmob,
+                                                );
+                                                stulist.add(mystu);
+                                                msg('${mystu.name} Added');
+                                                sheetstu.removeAt(index);
+                                                setState(() {});
+                                              },
                                             ),
                                           ),
                                           wspace(15),
