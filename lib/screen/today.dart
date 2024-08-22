@@ -60,27 +60,6 @@ class _TodayState extends State<Today> {
               if (cidsnap.hasData) {
                 String cid = cidsnap.data!;
 
-                //TodHelper todHelper = TodHelper(cid: cid, period: selper);
-
-                /*return FutureBuilder(
-                    future: todHelper.getlist(),
-                    builder: (context, AsyncSnapshot snaptod) {
-                      if (snaptod.hasError) {
-                        return Errored(error: 'e2${snaptod.error}');
-                      }
-                      if (snaptod.hasData) {
-                        List<Stuab> data = snaptod.data ?? [];
-                        List<Stuab> mytoday = [];
-
-                        for (Stuab stuab in data) {
-                          if(stuab.isPresent == ''){
-                            print(stuab.toMap());
-
-                            continue;
-                          }
-                          mytoday.add(stuab);
-                        }*/
-
                 return StreamBuilder<List<Stu>>(
                     stream: StuHelper(cid: cid).getClasstu(),
                     builder: (context, AsyncSnapshot<List<Stu>> snaps) {
@@ -88,27 +67,6 @@ class _TodayState extends State<Today> {
                         return Errored(error: 'e3${snaps.error}');
                       }
                       if (snaps.hasData) {
-                        /*List<Stu> datast = snaps.data;
-                                List<Stu> remstu = [];
-                                List<Stu> mystulist = [];
-                                for (var element in datast) {
-                                  if (element.clid == cidsnap.data) {
-                                    mystulist.add(element);
-                                    bool con = true;
-                                    for (var tod in mytoday) {
-                                      if (tod.sid == element.id) con = false;
-                                    }
-                                    if (con) remstu.add(element);
-                                  }
-                                }
-                                int ab = 0, pr = 0;
-                                for (var element in mytoday) {
-                                  if (!(element.isPresent == 'A')) ab++;
-                                  if (element.isPresent == 'P') pr++;
-                                }
-
-                                 */
-
                         return StreamBuilder<Classes>(
                             stream: ClassHelper().getClass(cid),
                             builder: (context, clasnap) {
@@ -128,26 +86,26 @@ class _TodayState extends State<Today> {
                                         },
                                         icon: const Icon(IconlyBroken.calendar),
                                       ),
-                                      IconButton(
+                                      loading ? Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 6.w),
+                                        child: LoadingAnimationWidget.discreteCircle(color: Colors.white, size: 15.sp),
+                                      ) : IconButton(
                                         onPressed: () async {
-                                          /*showDialog(context: context, builder: (context){
 
-                                            return SizedBox(
-                                              width: 100.r,
-                                              height: 100.r,
-                                              child: LoadingAnimationWidget.beat(color: cr_purple, size: 20.sp),
-                                            );
-
+                                          setState(() {
+                                            loading = true;
                                           });
-
-                                           */
-                                          TodHelper.uploadab(cid, today);
+                                          await TodHelper.uploadab(cid, today);
+                                          msg('Upload completed');
+                                          setState(() {
+                                            loading = false;
+                                          });
                                         },
                                         icon:
                                             const Icon(IconlyBold.tick_square),
                                       ),
                                     ],
-                                    bottom: PreferredSize(
+                                    /*bottom: PreferredSize(
                                       preferredSize:
                                           const Size(double.maxFinite, 50),
                                       child: Expanded(
@@ -178,7 +136,7 @@ class _TodayState extends State<Today> {
                                               );
                                             }),
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                   drawer: drawer(headcolor: Colors.redAccent),
                                   body: SingleChildScrollView(
@@ -315,89 +273,99 @@ class _TodayState extends State<Today> {
                                                       InkWell(
                                                         onTap: () {
                                                           showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Dialog(
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return Dialog(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                    10.r,
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    Container(
+                                                                  height: 300.h,
+                                                                  decoration:
+                                                                      BoxDecoration(
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             10.r),
                                                                   ),
                                                                   child:
-                                                                      Container(
-                                                                    height:
-                                                                        300.h,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.r),
-                                                                    ),
+                                                                      SingleChildScrollView(
                                                                     child:
-                                                                        SingleChildScrollView(
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Text(
-                                                                            'List of students',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 12.sp,
+                                                                        Column(
+                                                                      children: [
+                                                                        hspace(
+                                                                            5),
+                                                                        Row(
+                                                                          children: [
+                                                                            wspace(10),
+                                                                            Text(
+                                                                              'List of students',
+                                                                              style: TextStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 12.sp,
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          StreamBuilder<List<Stu>>(
-                                                                              stream: StuHelper(cid: cid).getClasstu(),
-                                                                              builder: (context, snapstu) {
-                                                                                return StreamBuilder<List<Stuab>>(
-                                                                                    stream: TodHelper(cid: cid, period: per[index]).getlist(),
-                                                                                    builder: (context, snapab) {
-                                                                                      if (snapab.hasData && snapstu.hasData) {
-                                                                                        print(per[index]);
-                                                                                        print(snapab.data);
-                                                                                        return ListView.builder(
-                                                                                          shrinkWrap: true,
-                                                                                          itemCount: snapstu.data!.length,
-                                                                                          itemBuilder: (context, inx) {
-                                                                                            Stu stu = snapstu.data![inx];
-                                                                                            Stuab? stuab;
-                                                                                            for (Stuab ab in snapab.data!) {
-                                                                                              if (ab.sid == stu.id) {
-                                                                                                stuab = ab;
-                                                                                              }
+                                                                          ],
+                                                                        ),
+                                                                        StreamBuilder<List<Stu>>(
+                                                                            stream: StuHelper(cid: cid).getClasstu(),
+                                                                            builder: (context, snapstu) {
+                                                                              return StreamBuilder<List<Stuab>>(
+                                                                                  stream: TodHelper(cid: cid, period: per[index]).getlist(),
+                                                                                  builder: (context, snapab) {
+                                                                                    if (snapab.hasData && snapstu.hasData) {
+                                                                                      //print(per[index]);
+                                                                                      //print(snapab.data);
+                                                                                      return ListView.builder(
+                                                                                        shrinkWrap: true,
+                                                                                        physics: const NeverScrollableScrollPhysics(),
+                                                                                        itemCount: snapstu.data!.length,
+                                                                                        itemBuilder: (context, inx) {
+                                                                                          Stu stu = snapstu.data![inx];
+                                                                                          Stuab? stuab;
+                                                                                          for (Stuab ab in snapab.data!) {
+                                                                                            if (ab.sid == stu.id) {
+                                                                                              stuab = ab;
                                                                                             }
-                                                                                            return ListTile(
-                                                                                              title: Text(stu.name),
-                                                                                              subtitle: Text(stu.regno),
-                                                                                              trailing: stuab == null
-                                                                                                  ? const SizedBox()
-                                                                                                  : stuab.isPresent == 'P'
-                                                                                                      ? Icon(
-                                                                                                          CupertinoIcons.checkmark_alt_circle_fill,
-                                                                                                          color: Colors.redAccent.withOpacity(0.7),
-                                                                                                          size: 25.r,
-                                                                                                        )
-                                                                                                      : Icon(
-                                                                                                          CupertinoIcons.clear_thick_circled,
-                                                                                                          color: Colors.redAccent.withOpacity(0.7),
-                                                                                                          size: 25.r,
-                                                                                                        ),
-                                                                                            );
-                                                                                          },
-                                                                                        );
-                                                                                      }
-                                                                                      return LoadingAnimationWidget.beat(color: cr_amber, size: 10.sp);
-                                                                                    });
-                                                                              }),
-                                                                        ],
-                                                                      ),
+                                                                                          }
+                                                                                          return ListTile(
+                                                                                            title: Text(stu.name),
+                                                                                            subtitle: Text(stu.regno),
+                                                                                            trailing: stuab == null
+                                                                                                ? const SizedBox()
+                                                                                                : stuab.isPresent == 'P'
+                                                                                                    ? Icon(
+                                                                                                        CupertinoIcons.checkmark_alt_circle_fill,
+                                                                                                        color: cr_green.withOpacity(0.7),
+                                                                                                        size: 25.r,
+                                                                                                      )
+                                                                                                    : Icon(
+                                                                                                        CupertinoIcons.clear_thick_circled,
+                                                                                                        color: Colors.redAccent.withOpacity(0.7),
+                                                                                                        size: 25.r,
+                                                                                                      ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    }
+                                                                                    return LoadingAnimationWidget.beat(color: cr_amber, size: 10.sp);
+                                                                                  });
+                                                                            }),
+                                                                        hspace(
+                                                                            10),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                );
-                                                              });
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
                                                         },
                                                         child: Container(
                                                           decoration:

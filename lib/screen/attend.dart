@@ -115,6 +115,15 @@ class _AttendbodyState extends State<Attendbody> {
     todHelper = TodHelper(cid: classes.id!, period: period);
     stuabs = widget.stuabs;
     stus = widget.stus;
+    int pr=0,ab=0;
+
+    stuabs.forEach((stuab){
+      if(stuab.isPresent=='P'){
+        pr++;
+      }else{
+        ab++;
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -222,7 +231,7 @@ class _AttendbodyState extends State<Attendbody> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                            text: 'pr ',
+                                            text: '$pr ',
                                             style: GoogleFonts.rubik(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 16)),
@@ -254,7 +263,7 @@ class _AttendbodyState extends State<Attendbody> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                            text: 'ab ',
+                                            text: '$ab ',
                                             style: GoogleFonts.rubik(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 16)),
@@ -324,7 +333,7 @@ class _AttendbodyState extends State<Attendbody> {
                                   ),
                                 ),
                               ),
-                              wspace(16),
+                              wspace(10),
                               Expanded(
                                 flex: 5,
                                 child: Column(
@@ -364,20 +373,18 @@ class _AttendbodyState extends State<Attendbody> {
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                flex: 3,
-                                child: CupertinoSwitch(
-                                  value: stuab.isPresent=='P',
-                                  onLabelColor: cr_green,
-                                  offLabelColor: cr_red,
-                                  activeColor: cr_grey.withOpacity(0.2),
-                                  onChanged: (val) {
-                                    stuabs.elementAt(index).isPresent =
-                                        val ? 'P' : 'A';
-                                    setState(() {});
-                                  },
-                                ),
+                              CupertinoSwitch(
+                                value: stuab.isPresent=='P',
+                                onLabelColor: cr_green,
+                                trackColor: cr_red,
+                                //activeColor: cr_grey.withOpacity(0.2),
+                                onChanged: (val) {
+                                  stuabs.elementAt(index).isPresent =
+                                      val ? 'P' : 'A';
+                                  setState(() {});
+                                },
                               ),
+                              wspace(10),
                             ],
                           )),
                       hspace(10),
@@ -391,8 +398,6 @@ class _AttendbodyState extends State<Attendbody> {
                     ],
                   );
                 }),
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
