@@ -187,7 +187,7 @@ class _TodayState extends State<Today> {
                                                                     10.r)),
                                                       ),
                                                       child: Text(
-                                                        '${depl[depl.indexOf(classes.dep)]} - ${yearl[classes.year - 1]} (${secl[secl.indexOf(classes.sec)]})',
+                                                        '${classes.dep} - ${classes.year} (${secl[secl.indexOf(classes.sec)]})',
                                                         style: TextStyle(
                                                           color:
                                                               Colors.blueAccent,

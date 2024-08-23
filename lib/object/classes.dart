@@ -12,8 +12,7 @@ const col_time = 'created_at';
 
 class Classes {
   String? id, time;
-  String oid, dep, sec;
-  int year;
+  String oid, dep, sec,year;
   List<String> read, write, students;
 
   Classes({

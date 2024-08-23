@@ -28,28 +28,19 @@ void setinrout(int inrout) async {
   prefs.setInt('inrout', inrout);
 }
 
-void route(BuildContext context,Widget page){
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => page
-    )
-  );
+void route(BuildContext context, Widget page) {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => page));
 }
 
-void routename(BuildContext context,String route){
-  Navigator.pushNamed(
-    context,
-    route
-  );
+void routename(BuildContext context, String route) {
+  Navigator.pushNamed(context, route);
 }
 
-void msg(String msg){
+void msg(String msg) {
   Fluttertoast.showToast(msg: msg);
 }
 
-
-void inidep() async {
+/*void inidep() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if(!prefs.containsKey('dep 0')){
     for(int d = 0; d<depl.length; d++){
@@ -59,15 +50,17 @@ void inidep() async {
   }
 }
 
-void goback(BuildContext context){
+ */
+
+void goback(BuildContext context) {
   Navigator.pop(context);
 }
 
 TValue? selectof<TOptionType, TValue>(
-    TOptionType selectedOption,
-    Map<TOptionType, TValue> branches, [
-      TValue? defaultValue,
-    ]) {
+  TOptionType selectedOption,
+  Map<TOptionType, TValue> branches, [
+  TValue? defaultValue,
+]) {
   if (!branches.containsKey(selectedOption)) {
     return defaultValue;
   }
@@ -79,30 +72,29 @@ String get timenow {
 }
 
 String timeof(String iso) {
-  return '${iso.substring(11,13)}:${iso.substring(14,16)},${iso.substring(17,19)}';
+  return '${iso.substring(11, 13)}:${iso.substring(14, 16)},${iso.substring(17, 19)}';
 }
 
-String getime(DateTime dateTime){
+String getime(DateTime dateTime) {
   final DateTime now = DateTime.now();
   int min = now.difference(dateTime).inMinutes;
   int hour = now.difference(dateTime).inHours;
   int day = now.difference(dateTime).inDays;
-  if(min<2){
+  if (min < 2) {
     return 'Just now';
-  }else if(min<61){
+  } else if (min < 61) {
     return '$min mins ago';
-  }else if(hour<25){
+  } else if (hour < 25) {
     return '$hour hours ago';
-  }else if(day<5){
+  } else if (day < 5) {
     return '$day days ago';
-  }else {
+  } else {
     return '${dateTime.hour}:${dateTime.minute} ${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
 }
 
 DateTime get nows => DateTime.now();
-String today =
-    '${nows.year}-'
+String today = '${nows.year}-'
     '${nows.month.toString().length == 1 ? '0${nows.month}' : '${nows.month}'}-'
     '${nows.day.toString().length == 1 ? '0${nows.day}' : '${nows.day}'}';
 
@@ -126,19 +118,69 @@ String extractSheetId(String url) {
 String pname = '', pinstut = '', pemail = '';
 int inrout = 2;
 
-List<String> yearl = ['I', 'II', 'III', 'IV','V'];
-List<Color> yearcl = [Colors.amber, Colors.orange, Colors.red, Colors.pink,Colors.redAccent];
+List<String> yearl = [
+  'I',
+  'II',
+  'III',
+  'IV',
+  'V',
+];
+List<Color> yearcl = [
+  Colors.amber,
+  Colors.orange,
+  Colors.red,
+  Colors.pink,
+  Colors.redAccent,
+];
 
-int inofdep(String dep){
+Color getyclr(String year) {
+  return selectof(year, {
+    'I' : Colors.amber,
+    'II' : Colors.orange,
+    'III' : Colors.red,
+    'IV' : Colors.pink,
+    'V' : Colors.redAccent,
+  }) as Color;
+}
+
+Color getdclr(String dep) {
+  return cl[secl.indexOf(dep[0].toUpperCase())];
+}
+
+/*int inofdep(String dep){
   if(!depl.contains(dep)){
     return -1;
   }
   return depl.indexOf(dep);
-}
+}*/
 
 List<String> secl = [
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z'
 ];
 
 List<Widget> screens = [
@@ -150,12 +192,5 @@ List<Widget> screens = [
 
 List<String> scroute = ['/home', '/today', '/class', '/profile'];
 
-List<String> depl = ['CIVIL', 'CSE', 'ECE', 'EEE', 'MECH'];
+//List<String> depl = ['CIVIL', 'CSE', 'ECE', 'EEE', 'MECH'];
 
-List<Color> depcl = [
-  cl[29],
-  cl[1],
-  cl[15],
-  cl[55],
-  cl[81],
-];

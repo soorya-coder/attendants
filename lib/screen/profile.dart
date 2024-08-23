@@ -9,6 +9,7 @@ import 'package:attendants/constants/Bottom%20bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _ProfileState extends State<Profile> {
@@ -98,79 +99,87 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               hspace(10),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    color: Colors.amber.withOpacity(0.4)),
-                child: Column(
-                  children: [
-                    hspace(5),
-                    Row(
-                      children: [
-                        wspace(10),
-                        Text(
-                          'Departments',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 80.h,
-                      child: ListView.builder(
-                          reverse: true,
-                          physics: const BouncingScrollPhysics(),
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: depl.length + 1,
-                          itemBuilder: (context, int index) {
-                            if (index == depl.length) {
-                              return addDep();
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: SizedBox(
-                                  width: 70.w,
-                                  height: 50.h,
-                                  child: Stack(
-                                    children: [
-                                      Card(
-                                        elevation: 10,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        color: depcl
-                                            .elementAt(index)
-                                            .withOpacity(0.5),
-                                        child: Center(
-                                          child: Text(depl.elementAt(index)),
+              StreamBuilder<List<String>>(
+                stream: AuthHelper().deps(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          color: Colors.amber.withOpacity(0.4)),
+                      child: Column(
+                        children: [
+                          hspace(5),
+                          Row(
+                            children: [
+                              wspace(10),
+                              Text(
+                                'Departments',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 80.h,
+                            child: ListView.builder(
+                                reverse: true,
+                                physics: const BouncingScrollPhysics(),
+                                padding: EdgeInsets.symmetric(vertical: 10.h),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.length + 1,
+                                itemBuilder: (context, int index) {
+                                  if (index == snapshot.data!.length) {
+                                    return addDep();
+                                  } else {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: SizedBox(
+                                        width: 70.w,
+                                        height: 50.h,
+                                        child: Stack(
+                                          children: [
+                                            Card(
+                                              elevation: 10,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                              ),
+                                              color: getdclr(snapshot.data![index]),
+                                              child: Center(
+                                                child: Text(snapshot.data![index]),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                  IconlyBroken.delete,
+                                                  color: CupertinoColors.white,
+                                                  size: 20,
+                                                ),
+                                                onPressed: () async{
+                                                  await AuthHelper().deldep(snapshot.data![index]);
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Positioned(
-                                        bottom: 0,
-                                        right: 0,
-                                        child: IconButton(
-                                          icon: const Icon(
-                                            IconlyBroken.delete,
-                                            color: CupertinoColors.white,
-                                            size: 20,
-                                          ),
-                                          onPressed: () {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                          }),
-                    ),
-                  ],
-                ),
+                                    );
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return LoadingAnimationWidget.stretchedDots(color: cr_brown, size: 20.sp);
+                }
               ),
             ],
           ),
@@ -180,7 +189,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget addDep() {
-    String addep = '';
+    String dep = '';
     return Container(
       width: 80.w,
       margin: EdgeInsets.symmetric(horizontal: 5.w),
@@ -193,13 +202,17 @@ class _ProfileState extends State<Profile> {
                 height: 80.h,
                 child: Column(
                   children: [
-                    Text.rich(
-                      TextSpan(children: const [
-                        TextSpan(text: 'Add your '),
-                        TextSpan(
-                            text: 'Departments',
-                            style: TextStyle(fontSize: 20)),
-                      ], style: GoogleFonts.rubik(color: Colors.black)),
+                    Row(
+                      children: [
+                        Text.rich(
+                          TextSpan(children: const [
+                            TextSpan(text: 'Add your '),
+                            TextSpan(
+                                text: 'Departments',
+                                style: TextStyle(fontSize: 20)),
+                          ], style: GoogleFonts.rubik(color: Colors.black)),
+                        ),
+                      ],
                     ),
                     Row(
                       children: [
@@ -210,7 +223,7 @@ class _ProfileState extends State<Profile> {
                             child: TextField(
                               decoration: const InputDecoration(),
                               onChanged: (String note) {
-                                addep = note;
+                                dep = note;
                               },
                             ),
                           ),
@@ -222,9 +235,7 @@ class _ProfileState extends State<Profile> {
                             child: IconButton(
                               icon: const Icon(CupertinoIcons.checkmark_alt),
                               onPressed: () async {
-                                SharedPreferences pref =
-                                    await SharedPreferences.getInstance();
-                                pref.setString('dep 3', addep);
+                                await AuthHelper().adddep(dep);
                               },
                             ),
                           ),

@@ -1,6 +1,6 @@
-
 // ignore_for_file: file_names
 
+import 'package:attendants/object/classes.dart';
 import 'package:attendants/service/todHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,13 +10,13 @@ import 'package:gsheets/gsheets.dart';
 import '../constants/functions.dart';
 import '../object/users.dart';
 
-class AuthHelper{
-
+class AuthHelper {
   static FirebaseAuth firebaseauth = FirebaseAuth.instance;
 
   static User? get myuser => FirebaseAuth.instance.currentUser;
 
-  static DocumentReference get docuser => FirebaseFirestore.instance.doc('/Users/${myuser!.uid}');
+  static DocumentReference get docuser =>
+      FirebaseFirestore.instance.doc('/Users/${myuser!.uid}');
 
   Stream<User?> authchanges() => firebaseauth.authStateChanges();
 
@@ -61,20 +61,22 @@ class AuthHelper{
 
   Stream<Users?> startup() {
     addlogins();
-    return docuser.snapshots().map((data) => Users.fromMap(data.data() as Map<String,dynamic>));
+    return docuser
+        .snapshots()
+        .map((data) => Users.fromMap(data.data() as Map<String, dynamic>));
   }
 
   Future<void> createUser() async {
-    User? user  = myuser;
+    User? user = myuser;
     Users users = Users(
-      uid: user!.uid,
-      fcid: '',
-      name: user.displayName!,
-      url: user.photoURL ?? '',
-      crtime: timenow,
-      logins: [timenow],
-      email: user.email!
-    );
+        uid: user!.uid,
+        fcid: '',
+        name: user.displayName!,
+        url: user.photoURL ?? '',
+        crtime: timenow,
+        logins: [timenow],
+        email: user.email!,
+        deps: ['CIVIL', 'CSE', 'ECE', 'EEE', 'MECH']);
 
     docuser.get().then((value) {
       if (value.exists) {
@@ -86,32 +88,27 @@ class AuthHelper{
     return;
   }
 
+  Future<void> adddep(String dep) async {
+    return docuser.update({
+      col_deps: FieldValue.arrayUnion([dep])
+    });
+  }
+
+  Future<void> deldep(String dep) async {
+    return docuser.update({
+      col_deps: FieldValue.arrayRemove([dep])
+    });
+  }
+
+  Stream<List<String>> deps() {
+    return docuser.snapshots().map((doc)=> Users.fromMap(doc.data() as Map<String, dynamic>?).deps);
+  }
+
   Future<void> addlogins() async {
     if (myuser != null) {
       docuser.update({
-        col_logins: FieldValue.arrayUnion([timenow.substring(0,16)])
+        col_logins: FieldValue.arrayUnion([timenow.substring(0, 16)])
       });
-
-
-
-      GSheets sheets = GSheets(credential);
-      Spreadsheet spreadsheet = await sheets.spreadsheet('1EaW_I1Fx6ZYtdCLlo9TthXKPL_iNGWhzN57V-4B6xXE');
-
-      final wk = spreadsheet.worksheetByTitle(name_wk);
-      wk!.values.allRows().then((value) {
-        //print(value.toString());
-      });
-      //print(wk!.values.value(column: 0, row: 0));
-      //msg(wk!.values.toString());
-
-      //spreadsheet.share('sooryasivask@gmail.com',role: PermRole.writer);
-      //spreadsheet.permissions().then((value) {
-      //  print(value);
-      //  msg(value.toString());
-      //});
-
-       /**/
-      
     } else {
       msg('Finish your login');
     }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'functions.dart';
+
 Color cr_purple = Colors.purpleAccent.withOpacity(0.2);
 Color cr_red = Colors.redAccent.withOpacity(0.5);
 Color cr_amber = Colors.orangeAccent.withOpacity(0.5);
@@ -9,9 +11,13 @@ const cr_grey = Color(0xff3b3554);
 //Color cr_ = ;
 //const cr_ = Color(0xff);
 
-List<Color> cl = const [
-  Color(0xffC0FEFC),
+List<Color> cl =  [
+  Color(0xffFDEB71),
   Color(0xff3edbf0),
+  Color(0xfffbaccc),
+  Color(0xff32CCBC),
+  Color(0xffC0FEFC),
+  Color(0xffb68973),
   Color(0xffD8CCE0),
   Color(0xff85A4BA),
   Color(0xffF9E466),
@@ -24,7 +30,6 @@ List<Color> cl = const [
   Color(0xffbeaee2),
   Color(0xffffabe1),
   Color(0xffa685e2),
-  Color(0xfffbaccc),
   Color(0xfff875aa),
   Color(0xffb6eb7a),
   Color(0xfff8ca84),
@@ -40,7 +45,6 @@ List<Color> cl = const [
   Color(0xff199ef3),
   Color(0xffe6eae9),
   Color(0xffc4cccf),
-  Color(0xffFDEB71),
   Color(0xffF8D800),
   Color(0xffeccec4),
   Color(0xffe3919d),
@@ -65,7 +69,6 @@ List<Color> cl = const [
   Color(0xffCE9FFC),
   Color(0xff7367F0),
   Color(0xff90F7EC),
-  Color(0xff32CCBC),
   Color(0xffFFF6B7),
   Color(0xffF6416C),
   Color(0xff81FBB8),
@@ -91,7 +94,6 @@ List<Color> cl = const [
   Color(0xffffcc7b),
   Color(0xff61c589),
   Color(0xffeabf9f),
-  Color(0xffb68973),
   Color(0xff9df3c4),
   Color(0xff62d2a2),
   Color(0xff7984ee),

@@ -96,7 +96,7 @@ class _StudentState extends State<Student> {
                         icon: const Icon(IconlyBold.arrow_left_2),
                       ),
                       Text(
-                        '${classs.dep} - ${yearl[classs.year]} (${classs.sec})',
+                        '${classs.dep} - ${classs.year} (${classs.sec})',
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,

@@ -38,12 +38,12 @@ class ClassHelper {
     return spreedsheet.worksheetByTitle(name_wk)!;
   }
 
-  Future<bool> create(int dep, int year, int sec) async {
+  Future<bool> create(String dep, String year, int sec) async {
     String id;
     try {
 
       Spreadsheet spreadsheet = await sheets
-          .createSpreadsheet('${yearl[year]} - ${depl[dep]}(${secl[sec]})');
+          .createSpreadsheet('$year - $dep(${secl[sec]})');
 
       spreadsheet.addWorksheet(name_wk);
 
@@ -58,7 +58,7 @@ class ClassHelper {
     Classes classes = Classes(
       id: id,
       oid: uid,
-      dep: depl[dep],
+      dep: dep,
       year: year,
       sec: secl[sec],
       read: [uid],

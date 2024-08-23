@@ -372,47 +372,47 @@ class _ClassState extends State<Class> {
                                   return const SizedBox();
                                 return Slidable(
                                   endActionPane: ActionPane(
-                                      motion: const ScrollMotion(),
-                                      children: [
-                                        MaterialButton(
-                                          color: Colors.redAccent
-                                              .withOpacity(0.15),
-                                          elevation: 0,
-                                          height: 50,
-                                          minWidth: 50,
-                                          shape: const CircleBorder(),
-                                          child: Icon(
-                                            Icons.center_focus_strong,
-                                            color: Colors.redAccent.shade200,
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              //setclsindex(index);
-                                              ClassHelper.setfocus(clas);
-                                              //clas.deindex = 1;
-                                            });
-                                          },
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      MaterialButton(
+                                        color:
+                                            Colors.redAccent.withOpacity(0.15),
+                                        elevation: 0,
+                                        height: 50,
+                                        minWidth: 50,
+                                        shape: const CircleBorder(),
+                                        child: Icon(
+                                          Icons.center_focus_strong,
+                                          color: Colors.redAccent.shade200,
+                                          size: 30,
                                         ),
-                                        MaterialButton(
-                                          color: Colors.blue.withOpacity(0.15),
-                                          elevation: 0,
-                                          height: 50,
-                                          minWidth: 50,
-                                          shape: const CircleBorder(),
-                                          child: const Icon(
-                                            IconlyBold.delete,
-                                            color: Colors.blue,
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              classHelper.delete(clas);
-                                              msg('Class Deleted');
-                                            });
-                                          },
+                                        onPressed: () {
+                                          setState(() {
+                                            //setclsindex(index);
+                                            ClassHelper.setfocus(clas);
+                                            //clas.deindex = 1;
+                                          });
+                                        },
+                                      ),
+                                      MaterialButton(
+                                        color: Colors.blue.withOpacity(0.15),
+                                        elevation: 0,
+                                        height: 50,
+                                        minWidth: 50,
+                                        shape: const CircleBorder(),
+                                        child: const Icon(
+                                          IconlyBold.delete,
+                                          color: Colors.blue,
+                                          size: 30,
                                         ),
-                                      ],
+                                        onPressed: () {
+                                          setState(() {
+                                            classHelper.delete(clas);
+                                            msg('Class Deleted');
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   child: InkWell(
                                     borderRadius: BorderRadius.all(
@@ -431,9 +431,10 @@ class _ClassState extends State<Class> {
                                           color: Colors.purpleAccent,
                                           gradient: LinearGradient(
                                             colors: [
-                                              depcl[depl.indexOf(clas.dep)]
+                                              getdclr(clas.dep)
                                                   .withOpacity(0.5),
-                                              yearcl[clas.year].withOpacity(0.2)
+                                              getyclr(clas.year)
+                                                  .withOpacity(0.2)
                                             ],
                                           ),
                                         ),
@@ -454,18 +455,17 @@ class _ClassState extends State<Class> {
                                                     Expanded(
                                                       flex: 4,
                                                       child: CircleAvatar(
-                                                        backgroundColor: depcl[
-                                                            depl.indexOf(
-                                                                clas.dep)],
+                                                        backgroundColor:
+                                                            getdclr(clas.dep),
                                                         foregroundColor:
                                                             Colors.white,
                                                         child: Text(
-                                                          yearl[clas.year],
+                                                          clas.year,
                                                           style:
                                                               GoogleFonts.rubik(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -499,8 +499,8 @@ class _ClassState extends State<Class> {
                                                                             8.sp),
                                                                   ),
                                                                   TextSpan(
-                                                                    text: yearl[
-                                                                        clas.year],
+                                                                    text: clas
+                                                                        .year,
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:
@@ -927,8 +927,7 @@ class _ClassState extends State<Class> {
 }
 
 class _Add_classState extends State<Add_class> {
-  int seldep = 0;
-  int selyr = 0;
+  late String seldep, selyr;
   int selsec = 0;
 
   ClassHelper classHelper = ClassHelper();
@@ -981,47 +980,53 @@ class _Add_classState extends State<Add_class> {
                 ),
                 SizedBox(
                   height: 220,
-                  child: GridView.count(
-                    crossAxisCount: 4,
-                    physics: const BouncingScrollPhysics(),
-                    children: List.generate(depl.length, (index) {
-                      return Container(
-                        width: 100,
-                        height: 50,
-                        margin: const EdgeInsets.all(10),
-                        decoration: seldep == index
-                            ? BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    depcl.elementAt(index).withOpacity(0.6),
-                                    depcl.elementAt(index).withOpacity(0.3)
-                                  ],
+                  child: StreamBuilder<List<String>>(
+                      stream: AuthHelper().deps(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return GridView.count(
+                            crossAxisCount: 4,
+                            physics: const BouncingScrollPhysics(),
+                            children:
+                                List.generate(snapshot.data!.length, (index) {
+                              String dep = snapshot.data![index];
+                              return Container(
+                                width: 100,
+                                height: 50,
+                                margin: const EdgeInsets.all(10),
+                                decoration: seldep == dep
+                                    ? BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            getdclr(dep).withOpacity(0.6),
+                                            getdclr(dep).withOpacity(0.3)
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(30),
+                                      )
+                                    : BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(30),
+                                        border: seldep == dep
+                                            ? Border.all()
+                                            : Border.all(
+                                                width: 1, color: getdclr(dep)),
+                                      ),
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(30),
+                                  onTap: () {
+                                    setState(() {
+                                      seldep = dep;
+                                    });
+                                  },
+                                  child: Center(child: Text(dep)),
                                 ),
-                                borderRadius: BorderRadius.circular(30),
-                              )
-                            : BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30),
-                                border: seldep == index
-                                    ? Border.all()
-                                    : Border.all(
-                                        width: 1,
-                                        color: depcl
-                                            .elementAt(index)
-                                            .withOpacity(1)),
-                              ),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(30),
-                          onTap: () {
-                            setState(() {
-                              seldep = index;
-                            });
-                          },
-                          child: Center(child: Text(depl.elementAt(index))),
-                        ),
-                      );
-                    }),
-                  ),
+                              );
+                            }),
+                          );
+                        }
+                        return SizedBox();
+                      }),
                 ),
               ],
             ),
@@ -1065,7 +1070,7 @@ class _Add_classState extends State<Add_class> {
                               const BorderRadius.all(Radius.circular(20)),
                           onTap: () {
                             setState(() {
-                              selyr = index;
+                              selyr = yearl[index];
                             });
                           },
                           child: Container(

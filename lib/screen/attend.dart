@@ -20,7 +20,8 @@ class Attend extends StatelessWidget {
       {super.key,
         required this.classes,
         required this.date,
-        required this.period});
+        required this.period,
+      });
   Classes classes;
   String date;
   int period;
@@ -186,7 +187,7 @@ class _AttendbodyState extends State<Attendbody> {
                           ),
                           TextSpan(
                             text:
-                                '${depl[depl.indexOf(classes.dep)]} - ${yearl[classes.year - 1]} (${secl[secl.indexOf(classes.sec)]})',
+                                '${classes.dep} - ${classes.year} (${classes.sec})',
                             style: TextStyle(
                               color: Colors.blueAccent,
                               fontSize: 16.sp,
