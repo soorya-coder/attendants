@@ -48,17 +48,17 @@ class Attend extends StatelessWidget {
               if (snapstu.hasData && snapab.hasData) {
 
                 List<Stuab> stuabs=[];
-                snapstu.data!.forEach((stu){
+                for (var stu in snapstu.data!) {
                   stuabs.add(Stuab(sid: stu.id!, cid: stu.clid, isPresent: 'A', period: period, date: date));
-                });
+                }
 
-                snapab.data!.forEach((stuab1) {
+                for (var stuab1 in snapab.data!) {
                   for (Stuab stuab2 in stuabs) {
                     if(stuab1.sid==stuab2.sid){
                       stuab2.isPresent = stuab1.isPresent;
                     }
                   }
-                });
+                }
 
                 return Attendbody(
                   classes: classes,
@@ -118,13 +118,13 @@ class _AttendbodyState extends State<Attendbody> {
     stus = widget.stus;
     int pr=0,ab=0;
 
-    stuabs.forEach((stuab){
+    for (var stuab in stuabs) {
       if(stuab.isPresent=='P'){
         pr++;
       }else{
         ab++;
       }
-    });
+    }
 
     return Scaffold(
       appBar: AppBar(

@@ -456,7 +456,6 @@ class _HomeState extends State<Home> {
             const Spacer(),
             ListTile(
               onTap: () async{
-                //FlutterPhoneDirectCaller.callNumber('9342573534');
                 launch("tel://$stuno");
               },
               title: const Text('Student number',style: TextStyle(color: Colors.black),),
@@ -466,7 +465,6 @@ class _HomeState extends State<Home> {
             const Spacer(),
             ListTile(
               onTap: () async{
-                //FlutterPhoneDirectCaller.callNumber('9342573534');
                 launch("tel://$prno");
               },
               title: const Text('Parent number',style: TextStyle(color: Colors.black),),

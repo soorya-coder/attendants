@@ -9,7 +9,6 @@ import 'package:attendants/service/stuHelper.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,7 +39,9 @@ class _StudentState extends State<Student> {
         stuna = map[3];
         stno = map[4];
         prno = map[6];
-      } catch (e) {}
+      } catch (e) {
+        print(e);
+      }
       return Stu(
         id: 'llk',
         clid: '', //classs.id!,
@@ -58,7 +59,7 @@ class _StudentState extends State<Student> {
   Future<List<Worksheet>> getsheets() async {
     GSheets gsheets = GSheets(credential);
     Spreadsheet spreedsheet = await gsheets.spreadsheet(sheetid);
-    List<Worksheet> sheets = await spreedsheet.sheets;
+    List<Worksheet> sheets = spreedsheet.sheets;
     List<String> sheetname = [];
     for (var element in sheets) {
       sheetname.add(element.title);
@@ -317,9 +318,9 @@ class _StudentState extends State<Student> {
                                                 style: TextStyle(
                                                     color: Colors.grey),
                                                 children: [
-                                                  const TextSpan(
+                                                  TextSpan(
                                                       text: 'YOU has no'),
-                                                  const TextSpan(
+                                                  TextSpan(
                                                       text: ' student',
                                                       style: TextStyle(
                                                           fontSize: 20)),
@@ -409,7 +410,6 @@ class _StudentState extends State<Student> {
   }
 
   Dialog call(String stuno, String prno) {
-    final Size size = MediaQuery.of(context).size;
     return Dialog(
       elevation: 200,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -474,274 +474,272 @@ class _StudentState extends State<Student> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Text.rich(
-                  TextSpan(
-                      children: [
-                        TextSpan(text: 'Student details'),
-                      ],
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold)),
-                ),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Text.rich(
+                TextSpan(
+                    children: [
+                      TextSpan(text: 'Student details'),
+                    ],
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: TextField(
-                  controller: stucon,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(
-                        CupertinoIcons.profile_circled,
-                        color: Colors.blue,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextField(
+                controller: stucon,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Icon(
+                      CupertinoIcons.profile_circled,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'Name',
+                  labelText: 'Student Name'.toUpperCase(),
+                ),
+                style: TextStyle(
+                  color: Colors.blue.withOpacity(0.8),
+                ),
+                keyboardType: TextInputType.name,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextField(
+                controller: regcon,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Icon(
+                      CupertinoIcons.person,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'Number',
+                  labelText: 'reg no'.toUpperCase(),
+                ),
+                style: TextStyle(
+                  color: Colors.blue.withOpacity(0.8),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextField(
+                controller: sprcon,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Icon(
+                      CupertinoIcons.person_alt,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'Number',
+                  labelText: 'spr no'.toUpperCase(),
+                ),
+                style: TextStyle(
+                  color: Colors.blue.withOpacity(0.8),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextField(
+                onTap: () async {
+                  final PhoneContact contact =
+                      await FlutterContactPicker.pickPhoneContact();
+                  String numb = contact.phoneNumber!.number ?? '0';
+                  if (!numb.startsWith('+91')) numb = '+91 $numb';
+                  setState(() {
+                    stunocon.text = numb;
+                  });
+                },
+                controller: stunocon,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Icon(
+                      CupertinoIcons.person,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'phonenumber',
+                  labelText: 'student no'.toUpperCase(),
+                ),
+                style: TextStyle(
+                  color: Colors.blue.withOpacity(0.8),
+                ),
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextField(
+                onTap: () async {
+                  final PhoneContact contact =
+                      await FlutterContactPicker.pickPhoneContact();
+                  String numb = contact.phoneNumber!.number ?? '0';
+                  if (!numb.startsWith('+91')) numb = '+91 $numb';
+                  setState(() {
+                    prcon.text = numb;
+                  });
+                },
+                controller: prcon,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Icon(
+                      CupertinoIcons.person,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1.5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'phonenumber',
+                  labelText: 'parent no'.toUpperCase(),
+                ),
+                style: TextStyle(
+                  color: Colors.blue.withOpacity(0.8),
+                ),
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            hspace(20),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: InkWell(
+                      onTap: () {
+                        if (stucon.text != '' &&
+                            regcon.text != '' &&
+                            sprcon.text != '') {
+                          /*Stu newstu = Stu(
+                            clid: classs.id!,
+                            stuname: stucon.text,
+                            regno: regcon.text,
+                            sprno: sprcon.text,
+                            stuno: stunocon.text,
+                            prano: prcon.text,
+                          );
+                          studata.instance.add(newstu);
+                          setState(() {
+                            stulist.add(newstu);
+                            stucon.text = '';
+                            sprcon.text = '';
+                            regcon.text = '';
+                            stunocon.text = '';
+                            prcon.text = '';
+                          });*/
+                          Navigator.pop(context);
+                        } else {
+                          msg('Enter details');
+                        }
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        color: const Color(0xff6b9fed),
+                        child: const Center(
+                            child: Text(
+                          'save',
+                          style: TextStyle(
+                              color: CupertinoColors.white,
+                              fontSize: 15,
+                              letterSpacing: 2),
+                        )),
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    hintText: 'Name',
-                    labelText: 'Student Name'.toUpperCase(),
                   ),
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.8),
-                  ),
-                  keyboardType: TextInputType.name,
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: TextField(
-                  controller: regcon,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(
-                        CupertinoIcons.person,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    hintText: 'Number',
-                    labelText: 'reg no'.toUpperCase(),
-                  ),
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.8),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: TextField(
-                  controller: sprcon,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(
-                        CupertinoIcons.person_alt,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    hintText: 'Number',
-                    labelText: 'spr no'.toUpperCase(),
-                  ),
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.8),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: TextField(
-                  onTap: () async {
-                    final PhoneContact contact =
-                        await FlutterContactPicker.pickPhoneContact();
-                    String numb = contact.phoneNumber!.number ?? '0';
-                    if (!numb.startsWith('+91')) numb = '+91 $numb';
-                    setState(() {
-                      stunocon.text = numb;
-                    });
-                  },
-                  controller: stunocon,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(
-                        CupertinoIcons.person,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    hintText: 'phonenumber',
-                    labelText: 'student no'.toUpperCase(),
-                  ),
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.8),
-                  ),
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: TextField(
-                  onTap: () async {
-                    final PhoneContact contact =
-                        await FlutterContactPicker.pickPhoneContact();
-                    String numb = contact.phoneNumber!.number ?? '0';
-                    if (!numb.startsWith('+91')) numb = '+91 $numb';
-                    setState(() {
-                      prcon.text = numb;
-                    });
-                  },
-                  controller: prcon,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Icon(
-                        CupertinoIcons.person,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(
-                          color: Colors.blue.withOpacity(0.5), width: 1.5),
-                      gapPadding: 10,
-                    ),
-                    hintText: 'phonenumber',
-                    labelText: 'parent no'.toUpperCase(),
-                  ),
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.8),
-                  ),
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              hspace(20),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Row(
-                  children: [
-                    const Spacer(),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: InkWell(
-                        onTap: () {
-                          if (stucon.text != '' &&
-                              regcon.text != '' &&
-                              sprcon.text != '') {
-                            /*Stu newstu = Stu(
-                              clid: classs.id!,
-                              stuname: stucon.text,
-                              regno: regcon.text,
-                              sprno: sprcon.text,
-                              stuno: stunocon.text,
-                              prano: prcon.text,
-                            );
-                            studata.instance.add(newstu);
-                            setState(() {
-                              stulist.add(newstu);
-                              stucon.text = '';
-                              sprcon.text = '';
-                              regcon.text = '';
-                              stunocon.text = '';
-                              prcon.text = '';
-                            });*/
-                            Navigator.pop(context);
-                          } else {
-                            msg('Enter details');
-                          }
-                        },
-                        child: Container(
-                          width: 100,
-                          height: 50,
-                          color: const Color(0xff6b9fed),
-                          child: const Center(
-                              child: Text(
-                            'save',
-                            style: TextStyle(
-                                color: CupertinoColors.white,
-                                fontSize: 15,
-                                letterSpacing: 2),
-                          )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

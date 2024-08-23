@@ -1,5 +1,4 @@
 
-import '../constants/functions.dart';
 import '../constants/wigets.dart';
 import '../screen/class.dart';
 import '../screen/home.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 import 'screen/profile.dart';

@@ -63,7 +63,7 @@ class _ClassState extends State<Class> {
           title: const Text('Class'),
           backgroundColor: cr_amber,
           actions: [
-            Chip(
+            const Chip(
               label: Text('cse ii'),
               backgroundColor: Colors.cyan,
             ),
@@ -368,8 +368,9 @@ class _ClassState extends State<Class> {
                                   }
                                 },
                               )*/
-                                if (clas.oid != AuthHelper.myuser!.uid)
+                                if (clas.oid != AuthHelper.myuser!.uid) {
                                   return const SizedBox();
+                                }
                                 return Slidable(
                                   endActionPane: ActionPane(
                                     motion: const ScrollMotion(),
@@ -1025,7 +1026,7 @@ class _Add_classState extends State<Add_class> {
                             }),
                           );
                         }
-                        return SizedBox();
+                        return const SizedBox();
                       }),
                 ),
               ],
@@ -1078,7 +1079,7 @@ class _Add_classState extends State<Add_class> {
                                 vertical: 6.h, horizontal: 5.w),
                             padding: EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10.w),
-                            decoration: selyr == index
+                            decoration: selyr == yearl[index]
                                 ? BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(20)),
