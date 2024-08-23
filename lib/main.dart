@@ -87,10 +87,10 @@ class _SpalshState extends State<Spalsh> {
   @override
   void initState() {
     super.initState();
-    mainscreen();
+    //mainscreen();
   }
 
-  void mainscreen() async {
+  /*void mainscreen() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     inrout = (pref.getInt('inrout') ?? 0);
     pname = (pref.getString('pname') ?? '');
@@ -104,6 +104,8 @@ class _SpalshState extends State<Spalsh> {
       }
     });
   }
+
+   */
 
   @override
   Widget build(BuildContext context) {
